@@ -1,0 +1,7 @@
+# ninja log v6
+1	141	1728472713432055493	CMakeFiles/CustomVonNeumannMachine.dir/main.cpp.o.ddi	e4775018724e3928
+141	146	1728472713577057609	CMakeFiles/CustomVonNeumannMachine.dir/CXX.dd	7824e29b39fd7cb7
+141	146	1728472713577057609	/home/czarhrs/Documents/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/CustomVonNeumannMachine.dir/CXXModules.json	7824e29b39fd7cb7
+141	146	1728472713577057609	CMakeFiles/CustomVonNeumannMachine.dir/main.cpp.o.modmap	7824e29b39fd7cb7
+146	1505	1728472713577057609	CMakeFiles/CustomVonNeumannMachine.dir/main.cpp.o	dea469c713a5fa76
+1506	1571	1728472714937077459	CustomVonNeumannMachine	634a368b8f404622

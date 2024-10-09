@@ -1,0 +1,3 @@
+/home/czarhrs/Documents/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/CustomVonNeumannMachine.dir
+/home/czarhrs/Documents/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/czarhrs/Documents/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
