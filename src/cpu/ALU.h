@@ -2,8 +2,8 @@
 // Created by czarhrs on 10/10/24.
 //
 
-#ifndef ULA_H
-#define ULA_H
+#ifndef ALU_H
+#define ALU_H
 #include <iostream>
 using namespace std;
 
@@ -15,12 +15,12 @@ enum operation {
     XOR,
     NOT_A,      // NOT A
     SLT,        //(A < B)
-    A,          // PASS A
+    PASS_A,     // PASS A
     SHR,        // SHIFT RIGHT
     SHL         // SHIFT LEFT
 };
 
-struct ULA {
+struct ALU {
     int32_t A;
     int32_t B;
     int32_t result;
@@ -29,4 +29,4 @@ struct ULA {
 
     void calculate();
 };
-#endif //ULA_H
+#endif //ALU_H

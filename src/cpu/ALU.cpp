@@ -1,6 +1,6 @@
-#include "ULA.h"
+#include "ALU.h"
 
-void ULA::calculate() {
+void ALU::calculate() {
     overflow = false;
 
     switch (op) {
@@ -31,7 +31,7 @@ void ULA::calculate() {
         case SLT:
             result = (A < B) ? 1 : 0;
         break;
-        case A:
+        case PASS_A:
             result = A;
         break;
         case SHR:

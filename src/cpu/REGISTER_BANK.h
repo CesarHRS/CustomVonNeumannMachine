@@ -6,6 +6,7 @@
 #define REGISTER_BANK_H
 
 #include <iomanip>
+#include <iostream>
 
 #include "REGISTER.h"
 using namespace std;

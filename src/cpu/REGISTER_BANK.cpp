@@ -5,7 +5,7 @@
 #include "REGISTER_BANK.h"
 
 void REGISTER_BANK::print_registers() const {
-        cout << hex << setfill('0');
+    cout << hex << setfill('0');
 
     // Registradores de uso específico
     cout << "$pc: " << setw(8) << pc.read() << endl;
