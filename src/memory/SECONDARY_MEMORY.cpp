@@ -1,4 +1,4 @@
-#include "SECONDARY_MEMORY.H"
+#include "SECONDARY_MEMORY.h"
   
 void SECONDARY_MEMORY::write(size_t position, uint32_t value)
 {
