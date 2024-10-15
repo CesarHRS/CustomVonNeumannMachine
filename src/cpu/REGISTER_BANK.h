@@ -15,6 +15,8 @@ struct REGISTER_BANK {
     //registradores de uso especifico
     REGISTER pc, mar, cr, epc, sr;                      // program counter, memory address register, cause register, exception program counter, status register
     REGISTER hi, lo;                                    // registradores usados para armazenar os resultados de operações de multiplicação e divisão (resultado de 64 bits dividido em dois registradores de 32 bits)
+    REGISTER ir;
+
     //registradores de uso geral
 
     REGISTER zero;                                      // sempre é igual a 0
