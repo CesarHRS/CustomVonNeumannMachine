@@ -15,6 +15,8 @@ void REGISTER_BANK::print_registers() const {
     cout << "$sr: " << setw(8) << sr.read() << endl;
     cout << "$hi: " << setw(8) << hi.read() << endl;
     cout << "$lo: " << setw(8) << lo.read() << endl;
+    cout << "$ir: " << setw(8) << ir.read() << endl;
+
 
     // Registradores de uso geral
     cout << "$zero: " << setw(8) << zero.read() << endl;
