@@ -5,11 +5,14 @@
 #ifndef ALU_H
 #define ALU_H
 #include <iostream>
+#include <any>
 using namespace std;
 
 enum operation {
     ADD,
     SUB,
+    MUL,
+    DIV,
     AND,
     OR,
     XOR,
@@ -21,8 +24,8 @@ enum operation {
 };
 
 struct ALU {
-    int32_t A;
-    int32_t B;
+    uint32_t A;
+    uint32_t B;
     int32_t result;
     bool overflow;
     operation op;
