@@ -52,10 +52,6 @@ Define as operações suportadas pela ALU: ADD, SUB, AND, OR, XOR, NOT_A, PASS_A
 ### Métodos
 - `calculate()`: Executa a operação especificada.
 
-## Justificativa
-- Implementação versátil da ALU suportando operações lógicas e aritméticas comuns.
-- Uso de enumeração para operações melhora a legibilidade e manutenção do código.
-
 ## CONTROL_UNIT
 
 ## REGISTER
