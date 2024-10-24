@@ -6,18 +6,16 @@
 #define ALU_H
 #include <iostream>
 #include <any>
+#include <cstdint>
 using namespace std;
 
 enum operation {
     ADD,
     SUB,
-    MUL,
-    DIV,
     AND,
     OR,
     XOR,
     NOT_A,      // NOT A
-    SLT,        //(A < B)
     PASS_A,     // PASS A
     SHR,        // SHIFT RIGHT
     SHL         // SHIFT LEFT
