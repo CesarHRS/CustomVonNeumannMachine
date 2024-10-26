@@ -16,29 +16,27 @@ void ALU::calculate() {
             overflow = true;
         }
         break;
-        case AND:
-            result = A & B;
+        case MUL:
+            result = A * B;
         break;
-        case OR:
-            result = A | B;
+        case DIV:
+            if (B == 0) {
+                cerr << "ULA: DIVISION BY ZERO!" << endl;
+                return;
+            }
+            result = A / B;
         break;
-        case XOR:
-            result = A ^ B;
+        case BME:
+            result = A < B;
         break;
-        case NOT_A:
-            result = ~A;
+        case BMA:
+            result = A > B;
         break;
-        case SLT:
-            result = (A < B) ? 1 : 0;
+        case BMAI:
+            result = A >= B;
         break;
-        case PASS_A:
-            result = A;
-        break;
-        case SHR:
-            result = A >> B;
-        break;
-        case SHL:
-            result = A << B;
+        case BMEI:
+            result = A <= B;
         break;
         default:
             cerr << "ULA: INVALID OPERATION!" << endl;

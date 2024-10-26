@@ -18,14 +18,17 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
 
 
     data.tarefa_a_ser_feita_pela_ula = Identificacao_instrucao(instruction,registers);
-    if(data.tarefa_a_ser_feita_pela_ula != "LOAD" && data.tarefa_a_ser_feita_pela_ula != "LOADV" && data.tarefa_a_ser_feita_pela_ula != "STORE" && data.tarefa_a_ser_feita_pela_ula != "JUMP"){
+    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWA" && data.tarefa_a_ser_feita_pela_ula != "ST" &&  data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI"){
         // se entrar aqui é porque tem de carregar registradores, que estão especificados na instrução
         data.code_first_register = Pick_First_Code_Register(instruction);
         data.code_second_register = Pick_Second_Code_Register(instruction);
         data.code_third_register = Pick_Third_Code_Register(instruction);
-    }else if(data.tarefa_a_ser_feita_pela_ula != "LOAD" && data.tarefa_a_ser_feita_pela_ula != "LOADV")
+        data.addressRAMResult = Pick_Adress_Result(instruction);
+
+    }else if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWA" && data.tarefa_a_ser_feita_pela_ula != "ST" &&  data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI")
     {
         data.code_first_register = Pick_Code_Register_Load(instruction);
+        data.addressRAMResult = Pick_Adress_Result(instruction);
     }
 
     return;
@@ -36,16 +39,28 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Temporary_Data &data){
     aqui tem de ser consultado a instrução que será feita,
     para saber se por exemplo vai ser feita uma multiplicação ou divisão*/
 
-    if(data.tarefa_a_ser_feita_pela_ula != "LOAD" && data.tarefa_a_ser_feita_pela_ula != "LOADV" && data.tarefa_a_ser_feita_pela_ula != "STORE" && data.tarefa_a_ser_feita_pela_ula != "JUMP"){
-        Execute_AritmeticOrLogical_Operation(registers, data);
-    }    
+    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWV" && data.tarefa_a_ser_feita_pela_ula != "ST" && data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI"){
+        Execute_Aritmetic_Operation(registers, data);
+    }else if(data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI"){
+        //pegar o valor salvo do PC no momento de decode
+    }
 }
 
-void Control_Unit::Memory_Acess(){
+void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Temporary_Data &data){
+
+    //aqui devem ser executadas as intruções de LOAD de fato
 
 }
 
-void Control_Unit::Write_Back(){
+void Control_Unit::Write_Back(Temporary_Data &data){
+
+    //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
+    if(data.tarefa_a_ser_feita_pela_ula == "ST"){
+        //aqui tem de ser feito a escrita na RAM
+        //Ram.insert[data.addressRAMResult] = registers.acessoLeituraRegistradores[data.code_third_register]();
+    }
+
+    return;
 
 }
 
@@ -62,14 +77,14 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
         //instrução do tipo j
         if(string_instruction.find(second_check) != string::npos){
             // LOAD de vetor
-            instruction_type = "LOADV";
+            instruction_type = "LWA";
         }
         else if(string_instruction.find("100011") != string::npos){
             // LOAD
-            instruction_type = "LOAD";
+            instruction_type = "LW";
         }else{
             // STORE
-            instruction_type = "STORE";
+            instruction_type = "ST";
         }
     }else{
 
@@ -117,7 +132,7 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
 
         default:
 
-            // instruções do tipo J → a única no nosso caso é a instrução de JUMP    
+             
                 
             break;
         }
@@ -126,16 +141,15 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
 
 } 
 
-string Control_Unit::Pick_Code_Register_Load(const uint32_t instruction){
-
+string Control_Unit::Pick_Adress_Result(const uint32_t instruction)
+{
     string copia_instrucao = to_string(instruction);
     string code;
-    for(int i = 8; i < 13; i++){
+    for(int i = 11; i < 17; i++){
         code[i] = copia_instrucao[i];
     }
 
     return code;
-
 }
 
 string Control_Unit::Pick_Third_Code_Register(const uint32_t instruction){
@@ -168,42 +182,31 @@ string Control_Unit::Pick_First_Code_Register(const uint32_t instruction){
     return code;
 }
 
-void Execute_AritmeticOrLogical_Operation(REGISTER_BANK &registers,Temporary_Data &data){
+void Execute_Aritmetic_Operation(REGISTER_BANK &registers,Temporary_Data &data){
 
         ALU alu;
         if(data.tarefa_a_ser_feita_pela_ula == "ADD"){
             alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
             alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
+            alu.result = registers.acessoEscritaRegistradores[data.code_third_register]();
             alu.op = ADD;
             alu.calculate();
         }else if(data.tarefa_a_ser_feita_pela_ula == "SUB"){
             alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
             alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
+            alu.result = registers.acessoEscritaRegistradores[data.code_third_register]();
             alu.op = SUB;
             alu.calculate();
         }else if(data.tarefa_a_ser_feita_pela_ula == "MUL"){
             alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
             alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
+            alu.result = registers.acessoEscritaRegistradores[data.code_third_register]();
             alu.op = MUL;
-            alu.calculate();
-        }else if(data.tarefa_a_ser_feita_pela_ula == "AND"){
-            alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-            alu.op = AND;
-            alu.calculate();
-        }else if(data.tarefa_a_ser_feita_pela_ula == "OR"){
-            alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-            alu.op = OR;
-            alu.calculate();
-        }else if(data.tarefa_a_ser_feita_pela_ula == "XOR"){
-            alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-            alu.op = XOR;
             alu.calculate();
         }else if(data.tarefa_a_ser_feita_pela_ula == "DIV"){
             alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
             alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
+            alu.result = registers.acessoEscritaRegistradores[data.code_third_register]();
             alu.op = DIV;
             alu.calculate();
         }

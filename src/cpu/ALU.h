@@ -13,14 +13,13 @@ enum operation {
     SUB,
     MUL,
     DIV,
-    AND,
-    OR,
-    XOR,
-    NOT_A,      // NOT A
-    SLT,        //(A < B)
-    PASS_A,     // PASS A
-    SHR,        // SHIFT RIGHT
-    SHL         // SHIFT LEFT
+    BME,
+    BMA,
+    BMAI,
+    BMEI,
+    LW,
+    LWV,
+    ST      
 };
 
 struct ALU {
