@@ -6,6 +6,7 @@
 #define ALU_H
 #include <iostream>
 #include <any>
+#include <cstdint>
 using namespace std;
 
 enum operation {
