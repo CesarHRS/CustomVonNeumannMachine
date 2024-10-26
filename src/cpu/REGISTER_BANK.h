@@ -30,6 +30,7 @@ struct REGISTER_BANK {
     REGISTER gp, sp, fp, ra;                            // global pointer, stack pointer, frame pointer, return address
 
     map<string, function<uint32_t()>> acessoLeituraRegistradores;
+    map<string, function<uint32_t()>> acessoEscritaRegistradores;
 
     REGISTER_BANK(){
 
@@ -73,6 +74,47 @@ struct REGISTER_BANK {
         acessoLeituraRegistradores["sp"] = [this](){ return this->sp.read(); };
         acessoLeituraRegistradores["fp"] = [this](){ return this->fp.read(); };
         acessoLeituraRegistradores["ra"] = [this](){ return this->ra.read(); };
+
+        acessoEscritaRegistradores["hi"] = [this]() -> uint32_t { return this->hi.value; };
+        acessoEscritaRegistradores["mar"] = [this]() -> uint32_t { return this->mar.value; };
+        acessoEscritaRegistradores["pc"] = [this]() -> uint32_t { return this->pc.value; };
+        acessoEscritaRegistradores["cr"] = [this]() -> uint32_t { return this->cr.value; };
+        acessoEscritaRegistradores["epc"] = [this]() -> uint32_t { return this->epc.value; };
+        acessoEscritaRegistradores["sr"] = [this]() -> uint32_t { return this->sr.value; };
+        acessoEscritaRegistradores["lo"] = [this]() -> uint32_t { return this->lo.value; };
+        acessoEscritaRegistradores["ir"] = [this]() -> uint32_t { return this->ir.value; };
+        acessoEscritaRegistradores["zero"] = [this]() -> uint32_t { return this->zero.value; };
+        acessoEscritaRegistradores["at"] = [this]() -> uint32_t { return this->at.value; };
+        acessoEscritaRegistradores["v0"] = [this]() -> uint32_t { return this->v0.value; };
+        acessoEscritaRegistradores["v1"] = [this]() -> uint32_t { return this->v1.value; };
+        acessoEscritaRegistradores["a0"] = [this]() -> uint32_t { return this->a0.value; };
+        acessoEscritaRegistradores["a1"] = [this]() -> uint32_t { return this->a1.value; };
+        acessoEscritaRegistradores["a2"] = [this]() -> uint32_t { return this->a2.value; };
+        acessoEscritaRegistradores["a3"] = [this]() -> uint32_t { return this->a3.value; };
+        acessoEscritaRegistradores["t0"] = [this]() -> uint32_t { return this->t0.value; };
+        acessoEscritaRegistradores["t1"] = [this]() -> uint32_t { return this->t1.value; };
+        acessoEscritaRegistradores["t2"] = [this]() -> uint32_t { return this->t2.value; };
+        acessoEscritaRegistradores["t3"] = [this]() -> uint32_t { return this->t3.value; };
+        acessoEscritaRegistradores["t4"] = [this]() -> uint32_t { return this->t4.value; };
+        acessoEscritaRegistradores["t5"] = [this]() -> uint32_t { return this->t5.value; };
+        acessoEscritaRegistradores["t6"] = [this]() -> uint32_t { return this->t6.value; };
+        acessoEscritaRegistradores["t7"] = [this]() -> uint32_t { return this->t7.value; };
+        acessoEscritaRegistradores["t8"] = [this]() -> uint32_t { return this->t8.value; };
+        acessoEscritaRegistradores["t9"] = [this]() -> uint32_t { return this->t9.value; };
+        acessoEscritaRegistradores["s0"] = [this]() -> uint32_t { return this->s0.value; };
+        acessoEscritaRegistradores["s1"] = [this]() -> uint32_t { return this->s1.value; };
+        acessoEscritaRegistradores["s2"] = [this]() -> uint32_t { return this->s2.value; };
+        acessoEscritaRegistradores["s3"] = [this]() -> uint32_t { return this->s3.value; };
+        acessoEscritaRegistradores["s4"] = [this]() -> uint32_t { return this->s4.value; };
+        acessoEscritaRegistradores["s5"] = [this]() -> uint32_t { return this->s5.value; };
+        acessoEscritaRegistradores["s6"] = [this]() -> uint32_t { return this->s6.value; };
+        acessoEscritaRegistradores["s7"] = [this]() -> uint32_t { return this->s7.value; };
+        acessoEscritaRegistradores["k0"] = [this]() -> uint32_t { return this->k0.value; };
+        acessoEscritaRegistradores["k1"] = [this]() -> uint32_t { return this->k1.value; };
+        acessoEscritaRegistradores["gp"] = [this]() -> uint32_t { return this->gp.value; };
+        acessoEscritaRegistradores["sp"] = [this]() -> uint32_t { return this->sp.value; };
+        acessoEscritaRegistradores["fp"] = [this]() -> uint32_t { return this->fp.value; };
+        acessoEscritaRegistradores["ra"] = [this]() -> uint32_t { return this->ra.value; };
 
     }
 
