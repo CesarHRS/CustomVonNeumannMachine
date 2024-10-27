@@ -1,9 +1,8 @@
 /* TODO
-- Check if the register are correctly translated to binary
 - Create label table
-- Make the correct parsing of the syntax: lw $t var | lw $t, i($s) 
-    - if not loading based on register pad the var with #
-    - This syntax is invalid: lw $t, i(var)
+
+OPT:
+- lw $t0 (offset)$t1) syntax
 */
 
 
@@ -17,10 +16,57 @@
 using namespace std;
 
 const unordered_map<string, int> instructionMap = {
-    {"add", 0b100000}, {"and", 0b100100}, {"div", 0b011010}, {"mult", 0b011000}, {"nor", 0b100111},
-    {"or", 0b100101}, {"sll", 0b000000}, {"sra", 0b000011}, {"sub", 0b100010}, {"xor", 0b100110},
-    {"slt", 0b101010}, {"beq", 0b000100}, {"bne", 0b000101}, {"jr", 0b001000}, {"lb", 0b100000},
-    {"lw", 0b100011}, {"sb", 0b101000}, {"sw", 0b101011}
+    {"add", 0b100000},
+    {"and", 0b100100},
+    {"div", 0b011010},
+    {"mult", 0b011000},
+    {"sub", 0b100010},
+    {"beq", 0b000100},
+    {"bne", 0b000101},
+    {"bgtz", 0b000111},
+    {"bltz", 0b000110},
+    {"j", 0b001000},
+    {"lw", 0b100011},
+    {"sw", 0b101011},
+    {"li", 0b101100},
+    {"move", 0b101101},
+    {"la", 0b101110}
+};
+
+const unordered_map<string, int> registerMap = {
+    {"$zero", 0b00000}, // Constant zero
+    {"$ra", 0b00001},  // Return address
+    {"$at", 0b00010},   // Assembler temporary
+    {"$v0", 0b00011},   // Value 0
+    {"$v1", 0b00100},   // Value 1
+    {"$a0", 0b00101},   // Argument 0
+    {"$a1", 0b00110},   // Argument 1
+    {"$a2", 0b00111},   // Argument 2
+    {"$a3", 0b01000},   // Argument 3
+    {"$t0", 0b01001},   // Temporary 0
+    {"$t1", 0b01010},   // Temporary 1
+    {"$t2", 0b01011},   // Temporary 2
+    {"$t3", 0b01100},   // Temporary 3
+    {"$t4", 0b01101},   // Temporary 4
+    {"$t5", 0b01110},   // Temporary 5
+    {"$t6", 0b01111},   // Temporary 6
+    {"$t7", 0b10000},   // Temporary 7
+    {"$s0", 0b10001},   // Saved 0
+    {"$s1", 0b10010},   // Saved 1
+    {"$s2", 0b10011},   // Saved 2
+    {"$s3", 0b10100},   // Saved 3
+    {"$s4", 0b10101},   // Saved 4
+    {"$s5", 0b10110},   // Saved 5
+    {"$s6", 0b10111},   // Saved 6
+    {"$s7", 0b11000},   // Saved 7
+    {"$t8", 0b11001},   // Temporary 8
+    {"$t9", 0b11010},   // Temporary 9
+    {"$k0", 0b11011},   // Kernel 0
+    {"$k1", 0b11100},   // Kernel 1
+    {"$gp", 0b11101},   // Global pointer
+    {"$sp", 0b11110},   // Stack pointer
+    {"$fp", 0b11111},   // Frame pointer
+    {"$s8", 0b10000}    // Saved 8 (also $f0 in floating point)
 };
 
 unordered_map<string, string> dataMap;
@@ -53,6 +99,21 @@ string encodeJType(string op, int address) {
     return (opcodeBits.to_string() + addrBits.to_string());
 }
 
+int getRegisterCode(const string &reg) {
+    if (registerMap.find(reg) != registerMap.end()) {
+        return registerMap.at(reg);
+    }
+    cerr << "Error: Invalid register \"" << reg << "\"" << endl;
+    return -1; 
+}
+
+
+string padInstruction(const string& instruction) {
+    if (instruction.length() < 32) {
+        return instruction + string(32 - instruction.length(), '#'); // Pad with '#'s
+    }
+    return instruction; 
+}
 
 string removeComments(const string &line) {
     size_t commentPos = line.find('#');
@@ -99,16 +160,61 @@ void processAssemblyFile(const string &filename, string &output) {
             int rs = 0, rt = 0, rd = 0, immediate = 0;
             if (instructionMap.find(instruction) != instructionMap.end()) {
                 if (instruction == "add" || instruction == "sub" || instruction == "div" || instruction == "mult") {
-                    iss >> rd >> rs >> rt; // rd, rs, rt
-                    output += encodeRType(instruction, rs, rt, rd, 0);
-                } else if (instruction == "beq" || instruction == "bne") {
-                    iss >> rs >> rt >> immediate; // rs, rt, immediate
-                    output += encodeIType(instruction, rs, rt, immediate);
-                } else if (instruction == "jr") {
-                    iss >> rs; // rs
+
+                    string rdStr, rsStr, rtStr;
+                    iss >> rdStr >> rsStr >> rtStr; 
+                    rd = getRegisterCode(rdStr);
+                    rs = getRegisterCode(rsStr);
+                    rt = getRegisterCode(rtStr);
+
+                    if (rd != -1 && rs != -1 && rt != -1) {
+                        output += encodeRType(instruction, rs, rt, rd, 0);
+                        output += "\n";
+                    }                
+
+                } else if (instruction == "beq" || instruction == "bne" || instruction == "bgtz" || instruction == "bltz") {
+                    string rsStr, rtStr;
+                    iss >> rsStr >> rtStr >> immediate; 
+                    rs = getRegisterCode(rsStr);
+                    rt = getRegisterCode(rtStr);
+
+                    if (rs != -1 && rt != -1) {
+                        output += encodeIType(instruction, rs, rt, immediate);
+                        output += "\n";
+                    }                
+
+                } else if (instruction == "j") {
+                    string rsStr;
+                    iss >> rsStr; 
+                    rs = getRegisterCode(rsStr);
                     output += encodeJType(instruction, rs);
+                    output += "\n";
+                } 
+                else if (instruction == "li" || instruction == "move" || instruction == "la") {
+                    string rtStr;
+                    iss >> rtStr >> immediate; 
+                    rt = getRegisterCode(rtStr);
+                    if (rt != -1) {
+                        output += encodeIType(instruction, 0, rt, immediate); // rs is not used, set to 0
+                        output += "\n";
+                    }
+
                 }
-                // Add handling for other instructions similarly
+                
+                else if (instruction == "lw" || instruction == "sw") {
+                    string rsStr, varName;
+                    iss >> rsStr >> varName; 
+                    rs = getRegisterCode(rsStr);
+
+                    if (rs != -1 ) {
+                        if (dataMap.find(varName) != dataMap.end()) {
+                            output += padInstruction(encodeIType(instruction, rs, 0, varName));
+                            output += "\n";
+                        } else {
+                            cerr << "Error: Variable \"" << varName << "\" not found in data section." << endl;
+                        }
+                    }
+                }            
             }
             else{
               cerr << "Invalid instruction \"" << instruction << "\" at " << lineNum << endl;
