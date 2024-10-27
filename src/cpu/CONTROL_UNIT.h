@@ -30,7 +30,7 @@ struct Control_Unit{
     string Pick_Second_Code_Register(const uint32_t instruction);
     string Pick_First_Code_Register(const uint32_t instruction);
     string Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers);
-    void Fetch(REGISTER_BANK &registers);
+    void Fetch(REGISTER_BANK &registers, bool &endProgram);
     void Decode(REGISTER_BANK &registers, Temporary_Data &data);
     void Execute_Aritmetic_Operation(REGISTER_BANK &registers,Temporary_Data &data);
     void Execute(REGISTER_BANK &registers, Temporary_Data &data);
