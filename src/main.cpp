@@ -11,7 +11,6 @@ int main(){
 
     
     //variaveis
-        bool key = true;
         int counter = 0;
         ifstream file("programa.txt"); //tem de ler o programa inteiro e jogar na RAM
         string line;
@@ -19,13 +18,14 @@ int main(){
         Control_Unit UC;
         bool endProgram = false;
         int counterForEnd = 5;
+        int clock = 0;
 
     /*tem de haver uma chamada da memória antes de chamar a unidade de controle para começar a operar no programa escrito
     Ou seja, vou ler o programa da memória do emulador e não do arquivo do meu computador
     */
 
     //é apenas uma ideia, não significa que vai ser aqui que isso deve ocorrer:
-        while(key == true && counterForEnd > 0){
+        while(counterForEnd > 0){
             if(counter >= 0 && counterForEnd == 5){
                 //chamar a instrução de fetch da unidade de controle
                 UC.Fetch(registers, endProgram);
@@ -36,17 +36,18 @@ int main(){
             }
             if(counter >= 2 && counterForEnd >= 3){
                 //chamar a instrução de execução da unidade de controle
-                UC.Execute(registers,UC.data[counter - 1]);
+                UC.Execute(registers,UC.data[counter - 1], counter);
             }
             if(counter >= 3 && counterForEnd >= 2){
                 //chamar a instrução de memory_acess da unidade de controle
-                UC.Memory_Acess();
+                UC.Memory_Acess(registers, UC.data[counter - 2]);
             }
             if(counter >= 4 && counterForEnd >= 1){
                 //chamar a instrução de write back
-                UC.Write_Back();
+                UC.Write_Back(UC.data[counter - 3]);
             }
             counter =+ 1;
+            clock =+ 1;
             if(endProgram == true){
                 counterForEnd =- 1;
             }

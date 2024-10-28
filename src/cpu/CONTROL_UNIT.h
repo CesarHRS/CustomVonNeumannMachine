@@ -33,7 +33,8 @@ struct Control_Unit{
     void Fetch(REGISTER_BANK &registers, bool &endProgram);
     void Decode(REGISTER_BANK &registers, Temporary_Data &data);
     void Execute_Aritmetic_Operation(REGISTER_BANK &registers,Temporary_Data &data);
-    void Execute(REGISTER_BANK &registers, Temporary_Data &data);
+    void Execute_Loop_Operation(REGISTER_BANK &registers,Temporary_Data &data, int &counter); 
+    void Execute(REGISTER_BANK &registers, Temporary_Data &data, int &counter);
     void Memory_Acess(REGISTER_BANK &registers,Temporary_Data &data);
     void Write_Back(Temporary_Data &data);
 };
