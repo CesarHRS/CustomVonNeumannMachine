@@ -3,7 +3,6 @@
 //PIPELINE
 
 void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram){
-    //Aqui são as ações para colocar a próxima instrução de prontidão
     const uint32_t instruction = registers.ir.read();
     if(instruction == 00000000000000000000000000001100)
     {
@@ -20,7 +19,6 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
     //Daqui vai ter de ser identificado o que fazer
 
     const uint32_t instruction = registers.ir.read();
-    // tenho de converte o valor de 32 bits para binario e separar cada uma das partes para fazer a análise
 
 
     data.tarefa_a_ser_feita_pela_ula = Identificacao_instrucao(instruction,registers);
