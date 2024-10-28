@@ -18,7 +18,5 @@ comparacao:
 	li $t2 5
 	beq $t1 $t1 .igual
 	bne $t1 $t2 .diferente
-	# Sub is necessary due to the limits of the instruction size
-	sub $t2 $t1 $t3
-	bgtz $t3 .maior
-	bltz $t3 .menor
+	bgt $t1 $t2 .maior
+	blt $t2 $t1 .menor
