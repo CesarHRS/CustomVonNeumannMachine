@@ -75,21 +75,42 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
 
     //instrução do tipo j
         string string_instruction = to_string(instruction);
+        string opcode = "";
         char first_check = 'x'; // → indica que tem endereço na instrução
         string instruction_type = "";
 
+        for(int i = 2; i < 8; i++){
+            opcode[i] = string_instruction[i];
+        }
+
     if(string_instruction.find(first_check) != string::npos){
         //instrução do tipo j
-        if(string_instruction.find("111111") != string::npos){
+        if(opcode == "111111"){
             // LOAD de vetor
             instruction_type = "LWA";
         }
-        else if(string_instruction.find("100011") != string::npos){
+        else if(opcode == "100011"){
             // LOAD
             instruction_type = "LW";
-        }else if(string_instruction.find("101011") != string::npos){
+        }else if(opcode == "101011"){
             // STORE
             instruction_type = "ST";
+        }else if(opcode == "000100"){
+            //IGUAL
+            instruction_type = "BEQ";
+        }else if(opcode == "011111"){
+            //MENOR
+            instruction_type = "BME";
+        }else if(opcode == "011010"){
+            //MENOR IGUAL
+            instruction_type = "BMEI";
+        }else if(opcode == "011110"){
+            //MAIOR
+            instruction_type = "BMA";
+        }else if(opcode == "011101"){
+            //MAIOR IGUAL
+            instruction_type = "BMAI";
+
         }
     }else{
 
