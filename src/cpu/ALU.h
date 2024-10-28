@@ -14,12 +14,13 @@ enum operation {
     SUB,
     MUL,
     DIV,
+    BEQ,
     BME,
     BMA,
     BMAI,
     BMEI,
     LW,
-    LWV,
+    LWA,
     ST      
 };
 
