@@ -2,7 +2,7 @@
 
 value:	 12
 Z:	 0
-vetor: 0,1,2,3
+#vetor: 0,1,2,3
 
 .text 		
 
