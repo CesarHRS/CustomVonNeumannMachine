@@ -76,19 +76,18 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     //instrução do tipo j
         string string_instruction = to_string(instruction);
         char first_check = 'x'; // → indica que tem endereço na instrução
-        char second_check = 'v'; // → indica que tem endereço na instrução
         string instruction_type = "";
 
     if(string_instruction.find(first_check) != string::npos){
         //instrução do tipo j
-        if(string_instruction.find(second_check) != string::npos){
+        if(string_instruction.find("111111") != string::npos){
             // LOAD de vetor
             instruction_type = "LWA";
         }
         else if(string_instruction.find("100011") != string::npos){
             // LOAD
             instruction_type = "LW";
-        }else{
+        }else if(string_instruction.find("101011") != string::npos){
             // STORE
             instruction_type = "ST";
         }
