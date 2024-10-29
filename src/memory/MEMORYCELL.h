@@ -13,8 +13,8 @@ struct MemoryCell
 
     void write(const uint32_t new_value);
 
-    [[nodiscard]] REGISTER read() const;
-    [[nodiscard]] REGISTER reverse_read() const;
+    [[nodiscard]] uint32_t read() const;
+    [[nodiscard]] uint32_t reverse_read() const;
 
 };
 #endif
