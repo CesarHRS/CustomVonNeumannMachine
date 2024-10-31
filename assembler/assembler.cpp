@@ -1,6 +1,5 @@
 /* TODO
 - Put end instruction at the end of each label
-- Handle vectors
 
 OPT:
 - lw $t0 (offset)$t1) syntax
@@ -31,7 +30,8 @@ const unordered_map<string, int> instructionMap = {
     {"sw", 0b101011},
     {"li", 0b101100},
     {"move", 0b101101},
-    {"la", 0b101110}
+    {"la", 0b101110},
+    {"print", 0b101111}
 };
 
 const unordered_map<string, int> registerMap = {
@@ -70,7 +70,7 @@ const unordered_map<string, int> registerMap = {
     {"$s8", 0b10000}    // Saved 8 (also $f0 in floating point)
 };
 
-unordered_map<string, string> dataMap;
+unordered_map<string, vector<int>> dataMap;
 
 string encodeRType(string op, int rs, int rt, int rd, int shamt) {
     int funct = instructionMap.at(op);
@@ -124,7 +124,6 @@ int getRegisterCode(const string &reg) {
     cerr << "Error: Invalid register \"" << cleanedReg << "\"" << endl;
     return -1; 
 }
-
 
 string padInstruction(const string& instruction) {
     if (instruction.length() < 32) {
@@ -234,7 +233,7 @@ void processAssemblyFile(const string &filename, string &output) {
                     iss >> rtStr >> immediate; 
                     rt = getRegisterCode(rtStr);
                     if (rt != -1) {
-                        output += encodeIType(instruction, 0, rt, immediate); // rs is not used, set to 0
+                        output += padInstruction(encodeIType(instruction, 0, rt, immediate)); // rs is not used, set to 0
                         output += "\n";
                     }
 
@@ -254,12 +253,28 @@ void processAssemblyFile(const string &filename, string &output) {
                         }
                     }
                 }            
+                else if (instruction == "print") {
+                    string arg;
+                    iss >> arg;
+                    // Check if arg is a register or a variable
+                    if (registerMap.count(cleanRegisterString(arg))) {
+                        int regCode = getRegisterCode(arg);
+                        if (regCode != -1) {
+                            output += encodeIType("print", 0, regCode, ""); 
+                            output += "\n";
+                        }
+                    } else {
+                        output += padInstruction(encodeIType("print", 0, 0, arg)); 
+                        output += "\n";
+                    }
+                }            
             }
             else{
               cerr << "Invalid instruction \"" << instruction << "\" at " << lineNum << endl;
             }
         }
         else{
+            // Data section
            
             size_t colonPos = line.find(':'); // Find the colon
             if (colonPos != string::npos) {
@@ -269,17 +284,34 @@ void processAssemblyFile(const string &filename, string &output) {
                 // Trim whitespace from value string
                 valueStr.erase(remove_if(valueStr.begin(), valueStr.end(),[](unsigned char c) { return isspace(c); }), valueStr.end());
 
-                try {
-                    int varValue = stoi(valueStr);
-                    dataMap[varName] = to_string(varValue);
-                    cout << varName << ": " << varValue << endl; // Print for debugging
-
-                } catch (invalid_argument&) {
-                    cerr << "Error: Invalid variable value for \"" << varName << "\" at line " << lineNum << endl;
-                } catch (out_of_range&) {
-                    cerr << "Error: Variable value out of range for \"" << varName << "\" at line " << lineNum << endl;
-                }               
-            } else {
+                // vector
+                if (valueStr.find(',') != string::npos) {
+                    istringstream valueStream(valueStr);
+                    string value;
+                    vector<int> values;
+                    while (getline(valueStream, value, ',')) {
+                        try {
+                            values.push_back(stoi(value));
+                        } catch (invalid_argument&) {
+                            cerr << "Error: Invalid value for array \"" << varName << "\" at line " << lineNum << endl;
+                            break;
+                        }
+                    }
+                    dataMap[varName] = values; 
+                }
+                // normal value
+                else{
+                     try {
+                        int varValue = stoi(valueStr);
+                        dataMap[varName] = { varValue }; // save as single element vector
+                    } catch (invalid_argument&) {
+                        cerr << "Error: Invalid variable value for \"" << varName << "\" at line " << lineNum << endl;
+                    } catch (out_of_range&) {
+                        cerr << "Error: Variable value out of range for \"" << varName << "\" at line " << lineNum << endl;
+                    }                      
+                }
+            } 
+            else {
                     cerr << "Error: Invalid variable definition in data section at line " << lineNum << endl;
                 }        
             }
@@ -290,7 +322,7 @@ void processAssemblyFile(const string &filename, string &output) {
 }
 
 
-void writeOutputFile(const string &output, const unordered_map<string, string> &dataMap) {
+void writeOutputFile(const string &output, const unordered_map<string, vector<int>> &dataMap) {
     ofstream outFile("output.bin");
    
     for (char bit : output) {
@@ -300,8 +332,16 @@ void writeOutputFile(const string &output, const unordered_map<string, string> &
     
     outFile << ".data{" << endl;
     for (const auto &entry : dataMap) {
-        outFile << entry.first << ":" << entry.second << endl;
-    }
+        outFile << entry.first << ": ";
+
+        for (size_t i = 0; i < entry.second.size(); ++i) {
+            outFile << entry.second[i];
+            if (i < entry.second.size() - 1) {
+                outFile << ","; 
+            }
+        }
+        outFile << endl; 
+    }    
     outFile << "}" << endl;
 
     outFile.close();
