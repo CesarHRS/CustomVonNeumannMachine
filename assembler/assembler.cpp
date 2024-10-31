@@ -330,7 +330,7 @@ void writeOutputFile(const string &output, const unordered_map<string, vector<in
     }
     outFile << endl;
     
-    outFile << ".data{" << endl;
+    outFile << ".data:" << endl;
     for (const auto &entry : dataMap) {
         outFile << entry.first << ": ";
 
@@ -342,7 +342,6 @@ void writeOutputFile(const string &output, const unordered_map<string, vector<in
         }
         outFile << endl; 
     }    
-    outFile << "}" << endl;
 
     outFile.close();
 }
