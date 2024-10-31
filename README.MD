@@ -96,8 +96,8 @@ Define as operações suportadas pela ALU: ADD, SUB, AND, OR, XOR, NOT_A, PASS_A
 - `storage`: Vetor de 32 bits que simula a memória secundária.
 
 ### Funções
-- `SECONDARY_MEMORY(size_t size)`: Construtor que inicializa a memória com o tamanho especificado e define todos os valores como `0x0000`.
+- `SECONDARY_MEMORY(size_t size)`: Construtor que inicializa a memória com o tamanho especificado e define todos os valores como 0x0000.
 
 - `write(size_t position, uint32_t value)`: Escreve um valor de 32 bits no endereço especificado.
 
-- `read(size_t position) const`: Retorna o valor armazenado na posição especificada. Retorna `1` em caso de posição inválida.
+- `read(size_t position) const`: Retorna o valor armazenado na posição especificada. Retorna 1 em caso de posição inválida.
