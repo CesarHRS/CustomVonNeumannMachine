@@ -9,5 +9,5 @@ uint32_t MemoryCell::read() const{
 }
 
 uint32_t MemoryCell::reverse_read() const{
-    return value;
+    return ~value;
 }
