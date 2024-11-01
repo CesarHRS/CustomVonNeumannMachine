@@ -1,7 +1,3 @@
-// TODO
-// Handle vector at data
-// Fix convertion error adn check values
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -42,30 +38,42 @@ void loadProgram(const std::string& inputFile) {
       // data section
       if (trimmedLine.find(".data") != std::string::npos) {
         while (std::getline(file, line)) {
-          std::istringstream dataStream(line);
-          std::string variableName;
-          int value;
-          
+            std::istringstream dataStream(line);
+            std::string variableName;
+            std::string values;
+            std::string value;
+
           // Extract variable name and value from the format "var: value"
           if (dataStream >> variableName) {
             size_t colonPos = variableName.find(':');
             if (colonPos != std::string::npos) {
-              variableName = variableName.substr(0, colonPos); 
-              dataStream >> value; 
-                  
-              variableAddresses[padName(variableName)] = address; 
-              memory[address] = value; 
+                variableName = variableName.substr(0, colonPos); 
+                variableAddresses[padName(variableName)] = address;
 
-              std::cout << "Variable: " << padName(variableName) 
-                                  << " Address: " << variableAddresses[padName(variableName)] << std::endl;
-              address += 1; 
+                std::getline(dataStream, values);
+                std::istringstream valueStream(values);
+
+                while (std::getline(valueStream, value, ',')) {
+                    if (address >= MEMORY_SIZE) {
+                        std::cerr << "Memory overflow while allocating vector data." << std::endl;
+                        return;
+                    }
+                    // Convert the value to int and store it in memory
+                    int intValue = std::stoi(value);
+                    memory[address] = intValue;
+
+                    std::cout << "Variable: " << padName(variableName) 
+                              << " Address: " << address 
+                              << " Value: " << intValue << std::endl;
+                    address += 1; 
+                }
             }
           }    
         }
-      
       // break if at the end of the data section
       break; 
     }
+
     // Check for labels
     else if (trimmedLine.find(":") != std::string::npos) {
         size_t colonPos = trimmedLine.find(":");

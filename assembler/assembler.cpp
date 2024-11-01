@@ -3,6 +3,8 @@
 
 OPT:
 - lw $t0 (offset)$t1) syntax
+- jal for function call
+- jr for return
 */
 
 #include <iostream>
