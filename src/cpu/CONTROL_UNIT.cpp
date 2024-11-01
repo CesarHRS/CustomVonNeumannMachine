@@ -22,7 +22,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
 
 
     data.tarefa_a_ser_feita_pela_ula = Identificacao_instrucao(instruction,registers);
-    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWA" && data.tarefa_a_ser_feita_pela_ula != "ST" &&  data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI"){
+    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWA" && data.tarefa_a_ser_feita_pela_ula != "ST" &&  data.tarefa_a_ser_feita_pela_ula != "BLT" && data.tarefa_a_ser_feita_pela_ula != "BGT" && data.tarefa_a_ser_feita_pela_ula != "BGTI" && data.tarefa_a_ser_feita_pela_ula != "BLTI"){
         // se entrar aqui é porque tem de carregar registradores, que estão especificados na instrução
         data.code_first_register = Pick_First_Code_Register(instruction);
         data.code_second_register = Pick_Second_Code_Register(instruction);
@@ -33,7 +33,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
     {
         data.code_first_register = Pick_Code_Register_Load(instruction);
         data.addressRAMResult = Pick_Adress_Result(instruction);
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BME" && data.tarefa_a_ser_feita_pela_ula == "BMA" && data.tarefa_a_ser_feita_pela_ula == "BMAI" && data.tarefa_a_ser_feita_pela_ula == "BMEI"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BLT" && data.tarefa_a_ser_feita_pela_ula == "BGT" && data.tarefa_a_ser_feita_pela_ula == "BGTI" && data.tarefa_a_ser_feita_pela_ula == "BLTI"){
         data.code_first_register = Pick_First_Code_Register(instruction);
         data.code_second_register = Pick_Second_Code_Register(instruction);
         data.addressRAMResult = Pick_Adress_Result(instruction);
@@ -45,9 +45,9 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
 void Control_Unit::Execute(REGISTER_BANK &registers,Temporary_Data &data, int &counter){
     /*Daqui tem de ser chamado o que tiver de ser chamado*/
 
-    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWV" && data.tarefa_a_ser_feita_pela_ula != "ST" && data.tarefa_a_ser_feita_pela_ula != "BME" && data.tarefa_a_ser_feita_pela_ula != "BMA" && data.tarefa_a_ser_feita_pela_ula != "BMAI" && data.tarefa_a_ser_feita_pela_ula != "BMEI"){
+    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWV" && data.tarefa_a_ser_feita_pela_ula != "ST" && data.tarefa_a_ser_feita_pela_ula != "BLT" && data.tarefa_a_ser_feita_pela_ula != "BGT" && data.tarefa_a_ser_feita_pela_ula != "BGTI" && data.tarefa_a_ser_feita_pela_ula != "BLTI"){
         Execute_Aritmetic_Operation(registers, data);
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BME" && data.tarefa_a_ser_feita_pela_ula == "BMA" && data.tarefa_a_ser_feita_pela_ula == "BMAI" && data.tarefa_a_ser_feita_pela_ula == "BMEI"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BLT" && data.tarefa_a_ser_feita_pela_ula == "BGT" && data.tarefa_a_ser_feita_pela_ula == "BGTI" && data.tarefa_a_ser_feita_pela_ula == "BLTI"){
         Execute_Loop_Operation(registers, data, counter);
     }
 }
@@ -55,7 +55,12 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Temporary_Data &data, int &c
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Temporary_Data &data){
 
     //aqui devem ser executadas as intruções de LOAD de fato
+    if(data.tarefa_a_ser_feita_pela_ula == "LW"){
+        //aqui tem de ser feito a leitura na RAM
+        //registers.acessoEscritaRegistradores[data.code_first_register] = Ram.insert[data.addressRAMResult];
+    }if(data.tarefa_a_ser_feita_pela_ula == "LWA"){
 
+    }
 }
 
 void Control_Unit::Write_Back(Temporary_Data &data){
@@ -100,16 +105,16 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
             instruction_type = "BEQ";
         }else if(opcode == "011111"){
             //MENOR
-            instruction_type = "BME";
+            instruction_type = "BLT";
         }else if(opcode == "011010"){
             //MENOR IGUAL
-            instruction_type = "BMEI";
+            instruction_type = "BLTI";
         }else if(opcode == "011110"){
             //MAIOR
-            instruction_type = "BMA";
+            instruction_type = "BGT";
         }else if(opcode == "011101"){
             //MAIOR IGUAL
-            instruction_type = "BMAI";
+            instruction_type = "BGTI";
 
         }
     }else{
@@ -227,37 +232,37 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Temporar
 void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Temporary_Data &data, int &counter){
     
     ALU alu;
-    if(data.tarefa_a_ser_feita_pela_ula == "BME"){
+    if(data.tarefa_a_ser_feita_pela_ula == "BLT"){
         alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
         alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-        alu.op = BME;
+        alu.op = BLT;
         alu.calculate();
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
         }
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BMEI"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BLTI"){
         alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
         alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-        alu.op = BMEI;
+        alu.op = BLTI;
         alu.calculate();
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
         }
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BMA"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BGT"){
         alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
         alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-        alu.op = BMA;
+        alu.op = BGT;
         alu.calculate();
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
         }
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BMAI"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BGTI"){
         alu.A = registers.acessoLeituraRegistradores[data.code_first_register]();
         alu.B = registers.acessoLeituraRegistradores[data.code_second_register]();
-        alu.op = BMAI;
+        alu.op = BGTI;
         alu.calculate();
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));

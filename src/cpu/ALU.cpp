@@ -26,16 +26,16 @@ void ALU::calculate() {
             }
             result = A / B;
         break;
-        case BME:
+        case BLT:
             result = A < B;
         break;
-        case BMA:
+        case BGT:
             result = A > B;
         break;
-        case BMAI:
+        case BGTI:
             result = A >= B;
         break;
-        case BMEI:
+        case BLTI:
             result = A <= B;
         break;
         default:
