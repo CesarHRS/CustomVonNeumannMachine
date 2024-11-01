@@ -35,3 +35,25 @@ void MainMemory::EraseData(int iTarget, int jTarget)
 
         else printf("Os valores para deleção de i e j são muito grandes!!");
 }
+
+
+void MainMemory::WriteMem(const uint32_t address, const uint32_t data) {
+    if (address >= NumOfi * NumOfj) {
+        printf("Endereço inválido!\n");
+        return;
+    }
+    int iTarget = address / NumOfj; 
+    int jTarget = address % NumOfj; 
+    words[iTarget][jTarget].write(data);
+}
+
+const uint32_t MainMemory::ReadMem(const uint32_t address) {
+    if (address >= NumOfi * NumOfj) {
+        printf("Endereço inválido!\n");
+        return -1; 
+    }
+    int iTarget = address / NumOfj; 
+    int jTarget = address % NumOfj; 
+    
+    return words[iTarget][jTarget].read();
+}

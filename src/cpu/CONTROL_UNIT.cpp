@@ -45,10 +45,13 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Temporary_Data &data){
 void Control_Unit::Execute(REGISTER_BANK &registers,Temporary_Data &data, int &counter){
     /*Daqui tem de ser chamado o que tiver de ser chamado*/
 
-    if(data.tarefa_a_ser_feita_pela_ula != "LW" && data.tarefa_a_ser_feita_pela_ula != "LWV" && data.tarefa_a_ser_feita_pela_ula != "ST" && data.tarefa_a_ser_feita_pela_ula != "BLT" && data.tarefa_a_ser_feita_pela_ula != "BGT" && data.tarefa_a_ser_feita_pela_ula != "BGTI" && data.tarefa_a_ser_feita_pela_ula != "BLTI"){
+    if(data.tarefa_a_ser_feita_pela_ula == "ADD" ||  data.tarefa_a_ser_feita_pela_ula == "SUB" || data.tarefa_a_ser_feita_pela_ula == "MUL" || data.tarefa_a_ser_feita_pela_ula == "DIV"){
         Execute_Aritmetic_Operation(registers, data);
-    }else if(data.tarefa_a_ser_feita_pela_ula == "BLT" && data.tarefa_a_ser_feita_pela_ula == "BGT" && data.tarefa_a_ser_feita_pela_ula == "BGTI" && data.tarefa_a_ser_feita_pela_ula == "BLTI"){
+    }else if(data.tarefa_a_ser_feita_pela_ula == "BEQ" || data.tarefa_a_ser_feita_pela_ula == "BNE" || data.tarefa_a_ser_feita_pela_ula == "BGT" || data.tarefa_a_ser_feita_pela_ula == "BGTI" || data.tarefa_a_ser_feita_pela_ula == "BLT" || data.tarefa_a_ser_feita_pela_ula == "BLTI"){
         Execute_Loop_Operation(registers, data, counter);
+    }
+    else if(data.tarefa_a_ser_feita_pela_ula == "LA" || data.tarefa_a_ser_feita_pela_ula == "LI" || data.tarefa_a_ser_feita_pela_ula == "PRINT" )){
+        Execute_Operation(registers,data);
     }
 }
 
@@ -58,7 +61,7 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Temporary_Data &data){
     if(data.tarefa_a_ser_feita_pela_ula == "LW"){
         //aqui tem de ser feito a leitura na RAM
         //registers.acessoEscritaRegistradores[data.code_first_register] = Ram.insert[data.addressRAMResult];
-    }if(data.tarefa_a_ser_feita_pela_ula == "LWA"){
+    }if(data.tarefa_a_ser_feita_pela_ula == "LA"){
 
     }
 }
@@ -78,7 +81,7 @@ void Control_Unit::Write_Back(Temporary_Data &data){
 string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers){
 
 
-    //instrução do tipo j
+    //instrução do tipo I
         string string_instruction = to_string(instruction);
         string opcode = "";
         char first_check = 'x'; // → indica que tem endereço na instrução
@@ -88,39 +91,35 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
             opcode[i] = string_instruction[i];
         }
 
-    if(string_instruction.find(first_check) != string::npos){
-        //instrução do tipo j
-        if(opcode == "111111"){
-            // LOAD de vetor
-            instruction_type = "LWA";
-        }
-        else if(opcode == "100011"){
-            // LOAD
+    if (string_instruction.find(first_check) != std::string::npos) {
+        if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
+            instruction_type = "LA";
+        } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
             instruction_type = "LW";
-        }else if(opcode == "101011"){
-            // STORE
+        } else if (opcode == this->instructionMap.at("st")) {       // STORE
             instruction_type = "ST";
-        }else if(opcode == "000100"){
-            //IGUAL
+        } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
             instruction_type = "BEQ";
-        }else if(opcode == "011111"){
-            //MENOR
+        } else if (opcode == this->instructionMap.at("blt")) {      // LESS THAN
             instruction_type = "BLT";
-        }else if(opcode == "011010"){
-            //MENOR IGUAL
+        } else if (opcode == this->instructionMap.at("blti")) {     // LESS THAN OR EQUAL
             instruction_type = "BLTI";
-        }else if(opcode == "011110"){
-            //MAIOR
+        } else if (opcode == this->instructionMap.at("bgt")) {      // GREATER THAN
             instruction_type = "BGT";
-        }else if(opcode == "011101"){
-            //MAIOR IGUAL
+        } else if (opcode == this->instructionMap.at("bgti")) {     // GREATER THAN OR EQUAL
             instruction_type = "BGTI";
-
+        }
+        else if (opcode == this->instructionMap.at("print")) {    
+            instruction_type = "PRINT";
+        }
+        else if (opcode == this->instructionMap.at("li")) {    
+            instruction_type = "LI"; // LOAD IMMEDIATE
         }
     }else{
 
         //identificação das instruções do tipo R
 
+        // O começo não devieria ser 0 tmb?
         unsigned long long int opcode = instruction & 0b11111100000000000000000000111111;
 
         switch (opcode)
@@ -146,9 +145,6 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
             break;
 
         default:
-
-             
-                
             break;
         }
     }
@@ -271,3 +267,6 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Temporary_Dat
     }
 }
 
+void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Temporary_Data &data){
+
+}
