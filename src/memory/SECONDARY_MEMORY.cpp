@@ -17,7 +17,7 @@ uint32_t SECONDARY_MEMORY::read(size_t position) const
   if (position >= storage.size())
   {
     cerr << "SECONDARY_MEMORY: position out of memory bounds!" << endl;
-    return 0x0000;
+    return 1;
   }
   
   return storage[position];

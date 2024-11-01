@@ -36,6 +36,30 @@ que posteriormente poderiam ser utilizados, além disso, ela também foi utiliza
 arquiteturas da família RISC, como é o caso da Alpha, porém, atualmente a arquitetura MIPS foi descontinuada, e a atual
 dona, MIPS Technologies, esta trabalhando na criação de uma nova arquitetura, desta vez, baseada na familia RISC-V
 
+# MEMORY 
+## MEMORYCELL
+**Atributos**
+- `value`: O valor armazenado em memória será um inteiro sem sinal de 32 bits. 
+- `next`: Um ponteiro usado para  criar uma estrutura dinâmica com o struct.
+
+**Métodos**
+- `write(const uint32_t new_value)`: Grava o valor de new_value na variável value. 
+- `read()`: Lê o valor armazenado no atributo **value**.
+- `reverse_read()`: Lê o inverso do valor armazenado em memória pelo atributo **value**.
+
+## MAINMEMORY
+**Atributos**
+- `NumOfi`: Nùmero de linhas da estrutura de dados. 
+- `NumOfj`: Número de colunas da estrutura de dados.
+- `MemoryCell`: Um ponteiro de ponteiro que define a estrutura de dados.
+
+**Métodos**
+- `InsertData`: Função de adiciona um valor na estrutura de dados.
+- `EraseData`: Apaga os dados na estrutura de dados.
+- `EmptyLine`: Verifica se a estrutura está vazia em uma das linhas.
+
+## 
+
 # CPU
 
 ## ALU
@@ -89,3 +113,15 @@ Define as operações suportadas pela ALU: ADD, SUB, AND, OR, XOR, NOT_A, PASS_A
 ### Funções
 - `REGISTER_BANK()`: Construtor que inicializa o banco de registradores.
 - `print_registers() const`: Imprime os valores de todos registradores do banco.
+
+## SECONDARY_MEMORY
+
+### Variáveis
+- `storage`: Vetor de 32 bits que simula a memória secundária.
+
+### Funções
+- `SECONDARY_MEMORY(size_t size)`: Construtor que inicializa a memória com o tamanho especificado e define todos os valores como 0x0000.
+
+- `write(size_t position, uint32_t value)`: Escreve um valor de 32 bits no endereço especificado.
+
+- `read(size_t position) const`: Retorna o valor armazenado na posição especificada. Retorna 1 em caso de posição inválida.
