@@ -257,12 +257,10 @@ void processAssemblyFile(const string &filename, string &output) {
                     string arg;
                     iss >> arg;
                     // Check if arg is a register or a variable
-                    if (registerMap.count(cleanRegisterString(arg))) {
+                    if (getRegisterCode(arg) != -1) {
                         int regCode = getRegisterCode(arg);
-                        if (regCode != -1) {
-                            output += encodeIType("print", 0, regCode, ""); 
-                            output += "\n";
-                        }
+                        output += encodeIType("print", 0, regCode, std::string(16,'0')); 
+                        output += "\n";
                     } else {
                         output += padInstruction(encodeIType("print", 0, 0, arg)); 
                         output += "\n";

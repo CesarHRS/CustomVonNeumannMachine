@@ -30,11 +30,9 @@ void loadProgram(const std::string& inputFile) {
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<std::string> instructions;
     std::vector<uint32_t> memory(MEMORY_SIZE, 0); // Initialize memory
-    int dataAddress = 0;
-    int memAddr = 0;
-    
-    std::string line;
     int address = 0;
+
+    std::string line;
 
     // Read instructions and data
     while (std::getline(file, line)) {
@@ -44,7 +42,6 @@ void loadProgram(const std::string& inputFile) {
       // data section
       if (trimmedLine.find(".data") != std::string::npos) {
         while (std::getline(file, line)) {
-          std::cout << line << std::endl;
           std::istringstream dataStream(line);
           std::string variableName;
           int value;
@@ -56,9 +53,12 @@ void loadProgram(const std::string& inputFile) {
               variableName = variableName.substr(0, colonPos); 
               dataStream >> value; 
                   
-              variableAddresses[padName(variableName)] = dataAddress; 
-              memory[dataAddress] = value; 
-              dataAddress += 1; 
+              variableAddresses[padName(variableName)] = address; 
+              memory[address] = value; 
+
+              std::cout << "Variable: " << padName(variableName) 
+                                  << " Address: " << variableAddresses[padName(variableName)] << std::endl;
+              address += 1; 
             }
           }    
         }
@@ -72,10 +72,10 @@ void loadProgram(const std::string& inputFile) {
         std::string label = trimmedLine.substr(0, colonPos);
         labelAddresses[padName(label)] = address; 
 
-        if (std::getline(file, line)) {
-          std::cout << label << std::endl;
-          instructions.push_back(line); // Store instruction
-          address += 1; 
+         std::cout << "Label: " << padName(label) << " Address: " << labelAddresses[padName(label)] << std::endl;
+         if (std::getline(file, line)) {
+            instructions.push_back(line); // Store instruction
+            address += 1; 
         }
     }
       // Regular instruction
@@ -86,6 +86,7 @@ void loadProgram(const std::string& inputFile) {
     }
 
     // Substitute addresses in instructions
+    int memAddress = 0;
     for (auto instruction : instructions) {
         for (const auto& [label, addr] : labelAddresses) {
             size_t pos = instruction.find(label);
@@ -109,12 +110,11 @@ void loadProgram(const std::string& inputFile) {
 
         // Convert instruction string to binary and store in memory
         try {
-            memory[memAddr++] = std::stoul(instruction, nullptr, 2);
-            std::cout << "Unsigned long value: " << instruction << std::endl;
+            memory[memAddress] = std::stoul(instruction, nullptr, 2);
         } catch (const std::exception& e) {
-            std::cerr << "Conversion error: " << e.what() << std::endl;
+            std::cerr << "Conversion error at: " << instruction << std::endl;
         }
-        memAddr++;
+        memAddress++;
     }
 
     // Output the loaded memory for verification
