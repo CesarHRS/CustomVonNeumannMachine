@@ -1,0 +1,3 @@
+/home/frank/Documentos/FACULDADE/PERIODOS/SEXTOPERIODO/SO/TRABALHOS/PRIMEIRO/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/frank/Documentos/FACULDADE/PERIODOS/SEXTOPERIODO/SO/TRABALHOS/PRIMEIRO/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/frank/Documentos/FACULDADE/PERIODOS/SEXTOPERIODO/SO/TRABALHOS/PRIMEIRO/CustomVonNeumannMachine/cmake-build-debug/CMakeFiles/CustomVonNeumannMachine.dir
