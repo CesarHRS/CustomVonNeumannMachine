@@ -123,7 +123,7 @@ void loadProgram(const std::string& inputFile, MainMemory & ram) {
     }
 
     // Output the loaded memory for verification
-    for (size_t i = 0; i < 128; ++i) {
+    for (size_t i = 0; i < address; ++i) {
         std::cout << "Address " << (i) << ": " << std::bitset<32>(ram.ReadMem(i)) << std::endl;
     }
 }

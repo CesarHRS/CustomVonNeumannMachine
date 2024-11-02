@@ -6,7 +6,7 @@
 
 //PIPELINE
 
-void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &memory){
+void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &ram){
     const uint32_t instruction = registers.ir.read();
     if(instruction == 0b11111100000000000000000000000000)
     {
@@ -15,7 +15,9 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory 
     }
     registers.mar.write(registers.pc.value);
     //chamar a memória com a posição do pc e inserir em um registrador
-    registers.ir.write(memory.ReadMem(registers.mar.read()));
+    //registers.ir.write(aqui tem de ser passado a instrução que estiver na RAM);
+
+    registers.ir.write(ram.ReadMem(registers.mar.read()));
     cout << "IR: " << bitset<32>(registers.ir.read()) << endl;
     registers.pc.write(registers.pc.value += 1);//incrementando o pc 
 }
@@ -35,7 +37,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     }else if(data.op == "LI" || data.op == "LW" || data.op == "LA" || data.op == "SW")
     {
-        data.source_register = Pick_Code_Register_Load(instruction);
+        data.source_register = Get_source_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
 
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
@@ -65,6 +67,8 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
     else if( data.op == "PRINT" ){
         Execute_Operation(registers,data);
     }
+
+    // demais operações realizadas no memory acess
 }
 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
@@ -97,7 +101,6 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     string string_instruction = instrucao;
     string opcode = "";
     string instruction_type = "";
-
 
     for(int i = 0; i < 6; i++){
         opcode += string_instruction[i];
@@ -140,8 +143,6 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     } else if (opcode == this->instructionMap.at("div")) {      
         instruction_type = "DIV";
     }
-
-    cout<< instruction_type << endl;
 
     return instruction_type;
 } 
