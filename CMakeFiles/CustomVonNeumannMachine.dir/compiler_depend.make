@@ -225,9 +225,18 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/bits/errno.h \
   /usr/include/bits/floatn-common.h \
   /usr/include/bits/floatn.h \
+  /usr/include/bits/flt-eval-method.h \
+  /usr/include/bits/fp-fast.h \
+  /usr/include/bits/fp-logb.h \
+  /usr/include/bits/iscanonical.h \
   /usr/include/bits/libc-header-start.h \
+  /usr/include/bits/libm-simd-decl-stubs.h \
   /usr/include/bits/locale.h \
   /usr/include/bits/long-double.h \
+  /usr/include/bits/math-vector.h \
+  /usr/include/bits/mathcalls-helper-functions.h \
+  /usr/include/bits/mathcalls-narrow.h \
+  /usr/include/bits/mathcalls.h \
   /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/pthreadtypes-arch.h \
   /usr/include/bits/pthreadtypes.h \
@@ -336,6 +345,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/c++/14.2.1/bits/ranges_util.h \
   /usr/include/c++/14.2.1/bits/refwrap.h \
   /usr/include/c++/14.2.1/bits/requires_hosted.h \
+  /usr/include/c++/14.2.1/bits/specfun.h \
   /usr/include/c++/14.2.1/bits/sstream.tcc \
   /usr/include/c++/14.2.1/bits/std_abs.h \
   /usr/include/c++/14.2.1/bits/std_function.h \
@@ -367,6 +377,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/c++/14.2.1/cerrno \
   /usr/include/c++/14.2.1/cinttypes \
   /usr/include/c++/14.2.1/clocale \
+  /usr/include/c++/14.2.1/cmath \
   /usr/include/c++/14.2.1/compare \
   /usr/include/c++/14.2.1/concepts \
   /usr/include/c++/14.2.1/cstddef \
@@ -392,6 +403,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/c++/14.2.1/iosfwd \
   /usr/include/c++/14.2.1/iostream \
   /usr/include/c++/14.2.1/istream \
+  /usr/include/c++/14.2.1/limits \
   /usr/include/c++/14.2.1/locale \
   /usr/include/c++/14.2.1/map \
   /usr/include/c++/14.2.1/new \
@@ -404,6 +416,18 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/c++/14.2.1/string \
   /usr/include/c++/14.2.1/string_view \
   /usr/include/c++/14.2.1/system_error \
+  /usr/include/c++/14.2.1/tr1/bessel_function.tcc \
+  /usr/include/c++/14.2.1/tr1/beta_function.tcc \
+  /usr/include/c++/14.2.1/tr1/ell_integral.tcc \
+  /usr/include/c++/14.2.1/tr1/exp_integral.tcc \
+  /usr/include/c++/14.2.1/tr1/gamma.tcc \
+  /usr/include/c++/14.2.1/tr1/hypergeometric.tcc \
+  /usr/include/c++/14.2.1/tr1/legendre_function.tcc \
+  /usr/include/c++/14.2.1/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/14.2.1/tr1/poly_hermite.tcc \
+  /usr/include/c++/14.2.1/tr1/poly_laguerre.tcc \
+  /usr/include/c++/14.2.1/tr1/riemann_zeta.tcc \
+  /usr/include/c++/14.2.1/tr1/special_function_util.h \
   /usr/include/c++/14.2.1/tuple \
   /usr/include/c++/14.2.1/type_traits \
   /usr/include/c++/14.2.1/typeinfo \
@@ -433,6 +457,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/cpu/CONTROL_UNIT.cpp.o: src/cpu/CONTR
   /usr/include/libintl.h \
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
+  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -970,9 +995,18 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/bits/errno.h \
   /usr/include/bits/floatn-common.h \
   /usr/include/bits/floatn.h \
+  /usr/include/bits/flt-eval-method.h \
+  /usr/include/bits/fp-fast.h \
+  /usr/include/bits/fp-logb.h \
+  /usr/include/bits/iscanonical.h \
   /usr/include/bits/libc-header-start.h \
+  /usr/include/bits/libm-simd-decl-stubs.h \
   /usr/include/bits/locale.h \
   /usr/include/bits/long-double.h \
+  /usr/include/bits/math-vector.h \
+  /usr/include/bits/mathcalls-helper-functions.h \
+  /usr/include/bits/mathcalls-narrow.h \
+  /usr/include/bits/mathcalls.h \
   /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/pthreadtypes-arch.h \
   /usr/include/bits/pthreadtypes.h \
@@ -1081,6 +1115,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/c++/14.2.1/bits/ranges_util.h \
   /usr/include/c++/14.2.1/bits/refwrap.h \
   /usr/include/c++/14.2.1/bits/requires_hosted.h \
+  /usr/include/c++/14.2.1/bits/specfun.h \
   /usr/include/c++/14.2.1/bits/sstream.tcc \
   /usr/include/c++/14.2.1/bits/std_abs.h \
   /usr/include/c++/14.2.1/bits/std_function.h \
@@ -1111,6 +1146,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/c++/14.2.1/cerrno \
   /usr/include/c++/14.2.1/cinttypes \
   /usr/include/c++/14.2.1/clocale \
+  /usr/include/c++/14.2.1/cmath \
   /usr/include/c++/14.2.1/compare \
   /usr/include/c++/14.2.1/concepts \
   /usr/include/c++/14.2.1/cstddef \
@@ -1136,6 +1172,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/c++/14.2.1/iosfwd \
   /usr/include/c++/14.2.1/iostream \
   /usr/include/c++/14.2.1/istream \
+  /usr/include/c++/14.2.1/limits \
   /usr/include/c++/14.2.1/locale \
   /usr/include/c++/14.2.1/map \
   /usr/include/c++/14.2.1/new \
@@ -1148,6 +1185,18 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/c++/14.2.1/string \
   /usr/include/c++/14.2.1/string_view \
   /usr/include/c++/14.2.1/system_error \
+  /usr/include/c++/14.2.1/tr1/bessel_function.tcc \
+  /usr/include/c++/14.2.1/tr1/beta_function.tcc \
+  /usr/include/c++/14.2.1/tr1/ell_integral.tcc \
+  /usr/include/c++/14.2.1/tr1/exp_integral.tcc \
+  /usr/include/c++/14.2.1/tr1/gamma.tcc \
+  /usr/include/c++/14.2.1/tr1/hypergeometric.tcc \
+  /usr/include/c++/14.2.1/tr1/legendre_function.tcc \
+  /usr/include/c++/14.2.1/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/14.2.1/tr1/poly_hermite.tcc \
+  /usr/include/c++/14.2.1/tr1/poly_laguerre.tcc \
+  /usr/include/c++/14.2.1/tr1/riemann_zeta.tcc \
+  /usr/include/c++/14.2.1/tr1/special_function_util.h \
   /usr/include/c++/14.2.1/tuple \
   /usr/include/c++/14.2.1/type_traits \
   /usr/include/c++/14.2.1/typeinfo \
@@ -1177,6 +1226,7 @@ CMakeFiles/CustomVonNeumannMachine.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/libintl.h \
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
+  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -1821,6 +1871,38 @@ src/memory/SECONDARY_MEMORY.h:
 
 src/memory/SECONDARY_MEMORY.cpp:
 
+src/memory/MEMORYCELL.cpp:
+
+src/memory/MAINMEMORY.cpp:
+
+src/loader.h:
+
+src/main.cpp:
+
+/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/c++io.h:
+
+/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/basic_file.h:
+
+/usr/include/c++/14.2.1/fstream:
+
+src/loader.cpp:
+
+/usr/include/inttypes.h:
+
+/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/time_members.h:
+
+/usr/include/c++/14.2.1/unordered_map:
+
+/usr/include/c++/14.2.1/tr1/riemann_zeta.tcc:
+
+/usr/include/c++/14.2.1/tr1/poly_hermite.tcc:
+
+/usr/include/c++/14.2.1/tr1/modified_bessel_func.tcc:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h:
+
+/usr/include/c++/14.2.1/tr1/legendre_function.tcc:
+
 /usr/include/c++/14.2.1/bits/stringfwd.h:
 
 /usr/include/c++/14.2.1/bits/stl_iterator_base_funcs.h:
@@ -1843,15 +1925,19 @@ src/memory/SECONDARY_MEMORY.cpp:
 
 /usr/include/c++/14.2.1/bits/nested_exception.h:
 
+src/cpu/REGISTER_BANK.cpp:
+
+/usr/include/c++/14.2.1/bits/move.h:
+
 /usr/include/linux/errno.h:
 
 /usr/include/c++/14.2.1/bits/stl_iterator_base_types.h:
 
-src/memory/MEMORYCELL.cpp:
-
 /usr/include/c++/14.2.1/bits/max_size_type.h:
 
 /usr/include/c++/14.2.1/bits/locale_facets.tcc:
+
+/usr/include/c++/14.2.1/cmath:
 
 /usr/include/c++/14.2.1/bits/istream.tcc:
 
@@ -1860,6 +1946,8 @@ src/memory/MEMORYCELL.cpp:
 /usr/include/c++/14.2.1/bits/hash_bytes.h:
 
 /usr/include/c++/14.2.1/bits/stl_function.h:
+
+/usr/include/bits/math-vector.h:
 
 /usr/include/c++/14.2.1/bits/exception_defines.h:
 
@@ -1901,6 +1989,8 @@ src/memory/MEMORYCELL.cpp:
 
 /usr/include/c++/14.2.1/bits/stl_iterator.h:
 
+/usr/include/bits/iscanonical.h:
+
 /usr/include/c++/14.2.1/bits/codecvt.h:
 
 /usr/include/c++/14.2.1/iosfwd:
@@ -1913,6 +2003,8 @@ src/memory/MEMORYCELL.cpp:
 
 /usr/include/bits/types/timer_t.h:
 
+/usr/include/c++/14.2.1/tr1/exp_integral.tcc:
+
 /usr/include/alloca.h:
 
 /usr/include/c++/14.2.1/bits/ptr_traits.h:
@@ -1924,6 +2016,8 @@ src/memory/MEMORYCELL.cpp:
 /usr/include/bits/typesizes.h:
 
 /usr/include/bits/cpu-set.h:
+
+/usr/include/c++/14.2.1/tr1/special_function_util.h:
 
 /usr/include/bits/select.h:
 
@@ -1944,8 +2038,6 @@ src/memory/MEMORYCELL.cpp:
 /usr/include/bits/struct_mutex.h:
 
 /usr/include/c++/14.2.1/bits/locale_classes.tcc:
-
-/usr/include/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/bits/errno.h:
 
@@ -1971,11 +2063,15 @@ src/cpu/ALU.cpp:
 
 /usr/include/bits/stdlib-float.h:
 
+/usr/include/c++/14.2.1/limits:
+
 /usr/include/c++/14.2.1/backward/binders.h:
 
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/asm-generic/errno.h:
+
+/usr/include/bits/fp-logb.h:
 
 /usr/include/bits/types/__fpos_t.h:
 
@@ -1987,6 +2083,8 @@ src/cpu/ALU.h:
 
 src/cpu/HashRegister.h:
 
+/usr/include/bits/mathcalls.h:
+
 /usr/include/c++/14.2.1/bits/locale_facets.h:
 
 /usr/include/bits/waitstatus.h:
@@ -1994,8 +2092,6 @@ src/cpu/HashRegister.h:
 /usr/include/bits/wchar.h:
 
 /usr/include/bits/types/struct___jmp_buf_tag.h:
-
-src/loader.h:
 
 /usr/include/bits/locale.h:
 
@@ -2015,7 +2111,13 @@ src/loader.h:
 
 /usr/include/bits/types/sigset_t.h:
 
+/usr/include/c++/14.2.1/vector:
+
+/usr/include/bits/floatn-common.h:
+
 /usr/include/bits/types/mbstate_t.h:
+
+/usr/include/c++/14.2.1/tr1/gamma.tcc:
 
 /usr/include/bits/endian.h:
 
@@ -2057,10 +2159,6 @@ src/cpu/REGISTER_BANK.h:
 
 /usr/include/c++/14.2.1/bits/streambuf.tcc:
 
-/usr/include/c++/14.2.1/bits/hashtable_policy.h:
-
-/usr/include/bits/atomic_wide_counter.h:
-
 /usr/include/bits/stdint-intn.h:
 
 /usr/include/bits/types/clockid_t.h:
@@ -2076,8 +2174,6 @@ src/cpu/REGISTER_BANK.h:
 /usr/include/c++/14.2.1/iostream:
 
 /usr/include/bits/stdint-uintn.h:
-
-/usr/include/c++/14.2.1/unordered_map:
 
 /usr/include/features.h:
 
@@ -2123,6 +2219,12 @@ src/cpu/REGISTER_BANK.h:
 
 /usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h:
 
+/usr/include/c++/14.2.1/bits/hashtable_policy.h:
+
+/usr/include/bits/atomic_wide_counter.h:
+
+/usr/include/c++/14.2.1/bits/specfun.h:
+
 /usr/include/bits/types/FILE.h:
 
 /usr/include/c++/14.2.1/cctype:
@@ -2147,6 +2249,8 @@ src/memory/MAINMEMORY.h:
 
 /usr/include/c++/14.2.1/cstdlib:
 
+/usr/include/c++/14.2.1/tr1/poly_laguerre.tcc:
+
 /usr/include/c++/14.2.1/cwchar:
 
 /usr/include/c++/14.2.1/cwctype:
@@ -2169,9 +2273,19 @@ src/memory/MAINMEMORY.h:
 
 /usr/include/c++/14.2.1/ext/alloc_traits.h:
 
+/usr/include/libintl.h:
+
+/usr/include/bits/endianness.h:
+
+/usr/include/c++/14.2.1/typeinfo:
+
+/usr/include/c++/14.2.1/tr1/bessel_function.tcc:
+
 /usr/include/c++/14.2.1/ext/numeric_traits.h:
 
 /usr/include/c++/14.2.1/ext/type_traits.h:
+
+/usr/include/math.h:
 
 /usr/include/c++/14.2.1/ios:
 
@@ -2180,8 +2294,6 @@ src/memory/MAINMEMORY.h:
 /usr/include/c++/14.2.1/numbers:
 
 /usr/include/c++/14.2.1/bits/hashtable.h:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h:
 
 /usr/include/c++/14.2.1/ostream:
 
@@ -2223,10 +2335,6 @@ src/memory/MAINMEMORY.h:
 
 /usr/include/locale.h:
 
-/usr/include/wctype.h:
-
-/usr/include/sched.h:
-
 /usr/include/stdc-predef.h:
 
 /usr/include/c++/14.2.1/bits/enable_special_members.h:
@@ -2239,8 +2347,6 @@ src/memory/MAINMEMORY.h:
 
 /usr/include/c++/14.2.1/cinttypes:
 
-src/main.cpp:
-
 /usr/include/stdlib.h:
 
 /usr/include/sys/cdefs.h:
@@ -2251,17 +2357,11 @@ src/main.cpp:
 
 /usr/include/wchar.h:
 
-/usr/include/bits/floatn-common.h:
-
-/usr/include/c++/14.2.1/vector:
-
 /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdarg.h:
 
+/usr/include/bits/flt-eval-method.h:
+
 /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdint.h:
-
-src/loader.cpp:
-
-/usr/include/c++/14.2.1/fstream:
 
 src/cpu/CONTROL_UNIT.cpp:
 
@@ -2276,6 +2376,20 @@ src/memory/MEMORYCELL.h:
 /usr/include/c++/14.2.1/bits/erase_if.h:
 
 src/cpu/CONTROL_UNIT.h:
+
+/usr/include/wctype.h:
+
+/usr/include/sched.h:
+
+/usr/include/bits/fp-fast.h:
+
+/usr/include/bits/libm-simd-decl-stubs.h:
+
+/usr/include/bits/mathcalls-helper-functions.h:
+
+/usr/include/bits/mathcalls-narrow.h:
+
+/usr/include/c++/14.2.1/ctime:
 
 /usr/include/c++/14.2.1/type_traits:
 
@@ -2295,17 +2409,15 @@ src/cpu/CONTROL_UNIT.h:
 
 /usr/include/c++/14.2.1/bits/stl_bvector.h:
 
-/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/time_members.h:
-
 /usr/include/c++/14.2.1/bits/stl_vector.h:
 
 /usr/include/c++/14.2.1/bits/unordered_map.h:
 
 /usr/include/c++/14.2.1/bits/fstream.tcc:
 
-/usr/include/c++/14.2.1/bitset:
+/usr/include/c++/14.2.1/tr1/hypergeometric.tcc:
 
-/usr/include/c++/14.2.1/ctime:
+/usr/include/c++/14.2.1/bitset:
 
 /usr/include/c++/14.2.1/functional:
 
@@ -2313,24 +2425,12 @@ src/cpu/CONTROL_UNIT.h:
 
 /usr/include/c++/14.2.1/locale:
 
-/usr/include/c++/14.2.1/sstream:
-
 /usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/messages_members.h:
 
-/usr/include/inttypes.h:
+/usr/include/c++/14.2.1/sstream:
 
-/usr/include/bits/endianness.h:
+/usr/include/c++/14.2.1/tr1/beta_function.tcc:
 
-/usr/include/c++/14.2.1/typeinfo:
+/usr/include/bits/pthread_stack_min-dynamic.h:
 
-/usr/include/libintl.h:
-
-/usr/include/c++/14.2.1/bits/move.h:
-
-src/cpu/REGISTER_BANK.cpp:
-
-/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/basic_file.h:
-
-/usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/c++io.h:
-
-src/memory/MAINMEMORY.cpp:
+/usr/include/c++/14.2.1/tr1/ell_integral.tcc:

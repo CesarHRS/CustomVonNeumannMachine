@@ -22,6 +22,7 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory 
     const uint32_t instruction = registers.ir.read();
     if(instruction == 0b11111100000000000000000000000000)
     {
+        cout << "END FOUND" << endl;
         endProgram = true;
         return;
     }
@@ -75,13 +76,13 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     return;
 }
 
-void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int &counter){
+void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd,bool& programEnd){
     /*Daqui tem de ser chamado o que tiver de ser chamado*/
 
     if(data.op == "ADD" ||  data.op == "SUB" || data.op == "MUL" || data.op == "DIV"){
         Execute_Aritmetic_Operation(registers, data);
     }else if(data.op == "BEQ" || data.op == "J" || data.op == "BNE" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLT" || data.op == "BLTI"){
-        Execute_Loop_Operation(registers, data, counter);
+        Execute_Loop_Operation(registers, data, counter,counterForEnd,programEnd);
     }
     else if( data.op == "PRINT" ){
         Execute_Operation(registers,data);
@@ -272,7 +273,7 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
         return;
 }
 
-void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter){
+void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd, bool& programEnd){
     
     string nameregistersource = this->map.mp[data.source_register];
     string nametargetregister = this->map.mp[data.target_register];
@@ -286,6 +287,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }else if(data.op == "BNE"){
         alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -295,10 +298,16 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }else if(data.op == "J"){
-        registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+        int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+        registers.pc.write(decimal_value);
+        cout << "Jump to: " << registers.pc.read();
         counter = 0;
+        counterForEnd = 5;
+        programEnd = false;
     }else if(data.op == "BLT"){
         alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
         alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
@@ -307,6 +316,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }else if(data.op == "BLTI"){
         alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -316,6 +327,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }else if(data.op == "BGT"){
         alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -325,6 +338,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }else if(data.op == "BGTI"){
         alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -334,6 +349,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         if(alu.result == 1){
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
+            counterForEnd = 5;
+            programEnd = false;
         }
     }
     return;
