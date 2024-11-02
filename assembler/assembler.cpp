@@ -218,7 +218,7 @@ void processAssemblyFile(const string &filename, string &output) {
                         output += "\n";
                     }                
 
-                } else if (instruction == "beq" || instruction == "bne" || instruction == "bgt" || instruction == "blt") {
+                } else if (instruction == "beq" || instruction == "bne" || instruction == "bgt" || instruction == "blt" || instruction == "blti" || instruction == "bgti") {
                     string rsStr, rtStr, immediate;
                     iss >> rsStr >> rtStr >> immediate; 
                     rs = getRegisterCode(rsStr);
