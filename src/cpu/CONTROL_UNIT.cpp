@@ -71,18 +71,23 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
         Execute_Operation(registers,data);
     }
 
+    cout<<"entrou"<<endl;
+    cout << counter << endl;
+
     // demais operações realizadas no memory acess
 }
 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
+
+    Map map;
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
         //aqui tem de ser feito a leitura na RAM
         registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
     }if(data.op == "LA" || data.op == "LI"){
-        registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
-        cout << "Registrador: " << data.source_register << " Valor: " << memory.ReadMem(stoul(data.addressRAMResult)) << endl;
+        string nameregister = map.mp[data.source_register];
+        registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
     }
 }
 
