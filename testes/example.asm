@@ -16,6 +16,7 @@ main:
 	la $t0, vetor
 	li $t2, 0
 	li $t3, 3
+	j print_vec
 print_vec:
 	print $t0
 	li $t1, 1
