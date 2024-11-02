@@ -53,7 +53,7 @@ struct Control_Unit{
     string Get_source_Register(const uint32_t instruction);
 
     string Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers);
-    void Fetch(REGISTER_BANK &registers, bool &endProgram,MainMemory &memory);
+    void Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &memory);
     void Decode(REGISTER_BANK &registers, Instruction_Data &data);
     void Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruction_Data &data);
     void Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data);

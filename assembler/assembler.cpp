@@ -76,14 +76,15 @@ const unordered_map<string, int> registerMap = {
 unordered_map<string, vector<int>> dataMap;
 
 string encodeRType(string op, int rs, int rt, int rd, int shamt) {
+    int opcode = instructionMap.at(op);
     int funct = instructionMap.at(op);
-    bitset<6> opcode(0); // R-type has opcode 0
+    bitset<6> opcodeBits(opcode); // R-type has opcode 0
     bitset<5> rsBits(rs);
     bitset<5> rtBits(rt);
     bitset<5> rdBits(rd);
     bitset<5> shamtBits(shamt);
     bitset<6> functBits(funct);
-    return (opcode.to_string() + rsBits.to_string() + rtBits.to_string() + 
+    return (opcodeBits.to_string() + rsBits.to_string() + rtBits.to_string() + 
             rdBits.to_string() + shamtBits.to_string() + functBits.to_string());
 }
 
