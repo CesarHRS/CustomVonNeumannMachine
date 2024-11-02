@@ -1,4 +1,5 @@
 #include "CONTROL_UNIT.h"
+#include <bitset>
 
 // TODO
 // - Implement print, li, la, lw, sw, j
@@ -15,6 +16,7 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory 
     registers.mar.write(registers.pc.value);
     //chamar a memória com a posição do pc e inserir em um registrador
     registers.ir.write(memory.ReadMem(registers.mar.read()));
+    cout << "IR: " << bitset<32>(registers.ir.read()) << endl;
     registers.pc.write(registers.pc.value += 1);//incrementando o pc 
 }
 
@@ -23,13 +25,15 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     const uint32_t instruction = registers.ir.read();
     data.op = Identificacao_instrucao(instruction,registers);
 
+    //cout <<instruction << endl;
+
     if(data.op == "ADD" || data.op == "SUB" || data.op == "MULT" || data.op == "DIV"){
         // se entrar aqui é porque tem de carregar registradores, que estão especificados na instrução
         data.source_register = Get_source_Register(instruction);
         data.target_register = Get_target_Register(instruction);
         data.destination_register = Get_destination_Register(instruction);
 
-    }else if(data.op == "LW" && data.op == "LA" && data.op == "SW")
+    }else if(data.op == "LI" || data.op == "LW" || data.op == "LA" || data.op == "SW")
     {
         data.source_register = Pick_Code_Register_Load(instruction);
         data.addressRAMResult = Get_immediate(instruction);
@@ -71,6 +75,7 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
         registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
     }if(data.op == "LA" || data.op == "LI"){
         registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
+        cout << "Registrador: " << data.source_register << " Valor: " << memory.ReadMem(stoul(data.addressRAMResult)) << endl;
     }
 }
 
@@ -88,22 +93,21 @@ void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTE
 
 string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers){
 
-
-    string string_instruction = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string string_instruction = instrucao;
     string opcode = "";
     string instruction_type = "";
 
-    cout << string_instruction << endl;
 
     for(int i = 0; i < 6; i++){
-        opcode[i] = string_instruction[i];
+        opcode += string_instruction[i];
     }
-
     //instrução do tipo I
     if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
         instruction_type = "LA";
     } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
         instruction_type = "LW";
+        cout<< "encontrou o inteiro" << endl;
     } else if (opcode == this->instructionMap.at("sw")) {       // STORE
         instruction_type = "SW";
     } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
@@ -122,6 +126,7 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     }
     else if (opcode == this->instructionMap.at("li")) {    
         instruction_type = "LI"; // LOAD IMMEDIATE
+        cout << "encontrou o inteiro" << endl;
     }
 
     // instruções do tipo R
