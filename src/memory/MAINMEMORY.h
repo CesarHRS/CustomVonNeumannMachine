@@ -36,8 +36,8 @@ struct MainMemory{
         bool EmptyLine(int i) const;
         uint32_t MainMemory::GetData(int iTarget, int jTarget) const;
 
-        void WriteMem(const uint32_t address, const unint32_t data);
-        const unint32_t ReadMem(const uint32_t address);
+        void WriteMem(const uint32_t address, const uint32_t data);
+        const uint32_t ReadMem(const uint32_t address);
         
 //      void ShowBit(int NumOfj, int NumOfi);
 //      void WriteBit(REGISTER value, int iTarget, int jTarget);
