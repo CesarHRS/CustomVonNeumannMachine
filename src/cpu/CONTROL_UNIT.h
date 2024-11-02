@@ -2,12 +2,16 @@
 #define CONTROL_UNIT_H
 
 #include <iostream>
-#include"ALU.h"
-#include"REGISTER_BANK.h"
+#include "ALU.h"
+#include "REGISTER_BANK.h"
 #include <string>
 #include <vector>
+<<<<<<< HEAD
 #include"HashRegister.h"
 #include"unordered_map"
+=======
+#include "HashRegister.h"
+>>>>>>> 285486a ([Fix]: Use the same register to binary map)
 
 using namespace std;
 

@@ -71,7 +71,6 @@ const unordered_map<string, int> registerMap = {
     {"$gp", 0b11101},   // Global pointer
     {"$sp", 0b11110},   // Stack pointer
     {"$fp", 0b11111},   // Frame pointer
-    {"$s8", 0b10000}    // Saved 8 (also $f0 in floating point)
 };
 
 unordered_map<string, vector<int>> dataMap;
