@@ -51,7 +51,7 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
     }else if(data.op == "BEQ" || data.op == "BNE" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLT" || data.op == "BLTI"){
         Execute_Loop_Operation(registers, data, counter);
     }
-    else if(data.op == "LA" || data.op == "LI" || data.op == "PRINT" ){
+    else if( data.op == "PRINT" ){
         Execute_Operation(registers,data);
     }
 }
@@ -61,18 +61,18 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
         //aqui tem de ser feito a leitura na RAM
-        registers.acessoEscritaRegistradores[data.destination_register] = memory.ReadMem(stoul(data.addressRAMResult));
-    }if(data.op == "LA"){
-
+        registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
+    }if(data.op == "LA" || data.op == "LI"){
+        registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
     }
 }
 
-void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory){
+void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTER_BANK &registers){
 
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.op == "SW"){
         //aqui tem de ser feito a escrita na RAM
-        //memory.InsertData(data, row, col) = registers.acessoLeituraRegistradores[data.code_third_register]();
+        memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[data.source_register]()) ;
     }
 
     return;
@@ -177,27 +177,24 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
         if(data.op == "ADD"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
-            alu.result = registers.acessoEscritaRegistradores[data.destination_register]();
+            alu.result = 
             alu.op = ADD;
-            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
         }else if(data.op == "SUB"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
-            alu.result = registers.acessoEscritaRegistradores[data.destination_register]();
             alu.op = SUB;
-            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
         }else if(data.op == "MUL"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
-            alu.result = registers.acessoEscritaRegistradores[data.destination_register]();
             alu.op = MUL;
-            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
         }else if(data.op == "DIV"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
-            alu.result = registers.acessoEscritaRegistradores[data.destination_register]();
             alu.op = DIV;
-            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
         }
 
         return;
