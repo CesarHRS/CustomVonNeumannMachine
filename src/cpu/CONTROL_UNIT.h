@@ -2,8 +2,8 @@
 #define CONTROL_UNIT_H
 
 #include <iostream>
-#include"ALU.h"
-#include"REGISTER_BANK.h"
+#include "ALU.h"
+#include "REGISTER_BANK.h"
 #include <string>
 #include <vector>
 #include"HashRegister.h"

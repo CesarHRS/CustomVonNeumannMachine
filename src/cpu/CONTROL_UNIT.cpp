@@ -56,18 +56,18 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
     }
 }
 
-void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data){
+void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
         //aqui tem de ser feito a leitura na RAM
-        //registers.acessoEscritaRegistradores[data.code_first_register] = Ram.insert[data.addressRAMResult];
+        registers.acessoEscritaRegistradores[data.destination_register] = memory.ReadMem(stoul(data.addressRAMResult));
     }if(data.op == "LA"){
 
     }
 }
 
-void Control_Unit::Write_Back(Instruction_Data &data){
+void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory){
 
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.op == "SW"){
