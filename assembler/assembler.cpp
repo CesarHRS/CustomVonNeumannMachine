@@ -231,9 +231,7 @@ void processAssemblyFile(const string &filename, string &output) {
 
                 } else if (instruction == "j") {
                     string addrStr;
-                    cout << "Jump" << endl;
-                    cout << addrStr << endl;
-                   
+
                     try {
                         iss >> addrStr; 
                         output += padInstruction(encodeIType(instruction,0,0, addrStr));

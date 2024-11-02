@@ -26,7 +26,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     const uint32_t instruction = registers.ir.read();
     data.op = Identificacao_instrucao(instruction,registers);
-    cout << data.op << endl;
+    //cout << data.op << endl;
 
     //cout <<instruction << endl;
 
@@ -99,10 +99,12 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
 
 void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTER_BANK &registers){
 
+    string nameregister = this->map.mp[data.source_register];
+
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.op == "SW"){
         //aqui tem de ser feito a escrita na RAM
-        memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[data.source_register]()) ;
+        memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[nameregister]()) ;
     }
 
     cout<<"entrou write back"<<endl;
@@ -314,9 +316,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
 
 void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data){
     if(data.op == "PRINT" && data.target_register != ""){
-        cout << registers.acessoLeituraRegistradores[data.target_register]() << endl;
+        cout << "PROGRAM PRINT" << registers.acessoLeituraRegistradores[data.target_register]() << endl;
     }else{
-        cout << data.source_register << endl;
+        cout << "PROGRAM PRINT" << data.source_register << endl;
     }
 }
 
