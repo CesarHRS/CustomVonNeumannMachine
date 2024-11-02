@@ -5,7 +5,7 @@
 
 //PIPELINE
 
-void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &memory){
+void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &ram){
     const uint32_t instruction = registers.ir.read();
     if(instruction == 0b11111100000000000000000000000000)
     {
@@ -14,6 +14,8 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory 
     }
     registers.mar.write(registers.pc.value);
     //chamar a memória com a posição do pc e inserir em um registrador
+    //registers.ir.write(aqui tem de ser passado a instrução que estiver na RAM);
+
     registers.ir.write(memory.ReadMem(registers.mar.read()));
     registers.pc.write(registers.pc.value += 1);//incrementando o pc 
 }
@@ -95,8 +97,6 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     string opcode = "";
     string instruction_type = "";
 
-    cout << string_instruction << endl;
-
     for(int i = 0; i < 6; i++){
         opcode[i] = string_instruction[i];
     }
@@ -137,8 +137,6 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     } else if (opcode == this->instructionMap.at("div")) {      
         instruction_type = "DIV";
     }
-
-    cout<< instruction_type << endl;
 
     return instruction_type;
 } 
