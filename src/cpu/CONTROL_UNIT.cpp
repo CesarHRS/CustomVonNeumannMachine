@@ -26,6 +26,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     const uint32_t instruction = registers.ir.read();
     data.op = Identificacao_instrucao(instruction,registers);
+    cout << "outra coisa" << endl;
 
     //cout <<instruction << endl;
 
@@ -97,7 +98,7 @@ void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTE
 
 }
 
-string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers){
+string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK &registers){
 
     string instrucao = bitset<32>(instruction).to_string();
     string string_instruction = instrucao;
@@ -152,40 +153,44 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
 
 string Control_Unit::Get_immediate(const uint32_t instruction)
 {
-    string copia_instrucao = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string copia_instrucao = instrucao;
     string code;
     for(int i = 16; i < 32; i++){
-        code[i] = copia_instrucao[i];
+        code += copia_instrucao[i];
     }
 
     return code;
 }
 
 string Control_Unit::Get_destination_Register(const uint32_t instruction){
-    string copia_instrucao = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string copia_instrucao = instrucao;
     string code;
     for(int i = 16; i < 21; i++){
-        code[i] = copia_instrucao[i];
+        code += copia_instrucao[i];
     }
 
     return code;
 }
 
 string Control_Unit::Get_target_Register(const uint32_t instruction){
-    string copia_instrucao = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string copia_instrucao = instrucao;
     string code;
     for(int i = 11; i < 16; i++){
-        code[i] = copia_instrucao[i];
+        code += copia_instrucao[i];
     }
 
     return code;
 }
 
 string Control_Unit::Get_source_Register(const uint32_t instruction){
-    string copia_instrucao = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string copia_instrucao = instrucao;
     string code;
     for(int i = 6; i < 11; i++){
-        code[i] = copia_instrucao[i];
+        code += copia_instrucao[i];
     }
 
     return code;
@@ -292,10 +297,11 @@ void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &
 }
 
 string Control_Unit::Pick_Code_Register_Load(const uint32_t instruction){
-    string copia_instrucao = to_string(instruction);
+    string instrucao = bitset<32>(instruction).to_string();
+    string copia_instrucao = instrucao;
     string code;
     for(int i = 11; i < 16; i++){
-        code[i] = copia_instrucao[i];
+        code += copia_instrucao[i];
     }
 
     return code;
