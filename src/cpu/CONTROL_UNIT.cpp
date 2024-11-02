@@ -38,6 +38,13 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
         data.source_register = Get_source_Register(instruction);
         data.target_register = Get_target_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
+    }else if(data.op == "PRINT"){
+        string instrucao = to_string(instruction);
+        if(Get_immediate(instruction) == "0000000000000000"){  //se for zero, então é um registrador
+            data.target_register = Get_target_Register(instruction);
+        }else{  //se não for zero, então é um valor imediato
+            data.source_register = Get_immediate(instruction); 
+        }
     }
 
     return;
@@ -264,5 +271,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
 }
 
 void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data){
-
+    if(data.op == "PRINT" && data.target_register != ""){
+        cout << registers.acessoLeituraRegistradores[data.target_register]() << endl;
+    }else{
+        cout << data.source_register << endl;
+    }
 }
