@@ -125,3 +125,40 @@ Define as operações suportadas pela ALU: ADD, SUB, AND, OR, XOR, NOT_A, PASS_A
 - `write(size_t position, uint32_t value)`: Escreve um valor de 32 bits no endereço especificado.
 
 - `read(size_t position) const`: Retorna o valor armazenado na posição especificada. Retorna 1 em caso de posição inválida.
+
+# Programação
+
+As instruções supportadas pela a arquitetura são as seguintes:
+
+- `add`: Realiza a soma de dois operandos e armazena o resultado.
+- `div`: Realiza a divisão de dois operandos e armazena o resultado no terceito.
+- `mult`: Multiplica dois operandos e armazena o resultado no terceito.
+- `sub`: Realiza a subtração de dois operandos e armazena o resultado no terceito.
+- `beq`: Realiza um desvio condicional se os dois operandos forem iguais.
+- `bne`: Realiza um desvio condicional se os dois operandos forem diferentes.
+- `bgt`: Desvia se o primeiro operando for maior que o segundo.
+- `bgti`: Desvio condicional se o primeiro operando for maior ou igual o segundo.
+- `blt`: Desvia se o primeiro operando for menor que o segundo.
+- `blti`: Desvio condicional se o primeiro operando for menor ou igal o segundo.
+- `j`: Desvio incondicional para a label.
+- `lw`: Carrega uma palavra da memória para um registrador.
+- `sw`: Armazena uma palavra de um registrador na memória.
+- `li`: Carrega um valor imediato em um registrador.
+- `la`: Carrega o endereço de uma variável em um registrador.
+- `print`: Exibe o valor de um registrador ou uma variável na saída padrão.
+
+Além disso são suportados a declaração de varíaveis inteiras e vetores, juntamente com o labels para controle de fluxo.
+Exemplo de programa simples:
+```
+main:
+li $t0 0
+li $t1 10
+li $t3 100
+j loop
+
+loop:
+print $t0
+add $t0 $zero $t1
+blt $t0 $t3 loop
+
+```
