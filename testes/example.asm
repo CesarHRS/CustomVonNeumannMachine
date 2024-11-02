@@ -27,7 +27,7 @@ print_vec:
 	li $t1, 1
 	add $t0, $t1, $t0 # Aumenta o ponteiro do vetor
 	add $t2, $t1 $t2 # Aumenta contador
-	blt $t2 $t3 print_vec
+	blti $t2 $t3 print_vec
 
 comparacao:
 	li $t1 10

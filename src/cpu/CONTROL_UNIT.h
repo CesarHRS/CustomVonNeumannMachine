@@ -62,8 +62,8 @@ struct Control_Unit{
     void Decode(REGISTER_BANK &registers, Instruction_Data &data);
     void Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruction_Data &data);
     void Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data);
-    void Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int &counterForEnd, bool& endProgram); 
-    void Execute(REGISTER_BANK &registers, Instruction_Data &data, int &counter, int &counterForEnd, bool& endProgram);
+    void Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int &counterForEnd, bool& endProgram, MainMemory& ram); 
+    void Execute(REGISTER_BANK &registers, Instruction_Data &data, int &counter, int &counterForEnd, bool& endProgram, MainMemory& ram);
     void Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory);
     void Write_Back(Instruction_Data &data, MainMemory &memory,REGISTER_BANK &registers);
 };

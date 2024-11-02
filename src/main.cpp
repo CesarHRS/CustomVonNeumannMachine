@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
                 }
                 if(counter >= 2 && counterForEnd >= 3){
                     //chamar a instrução de execução da unidade de controle
-                    UC.Execute(registers,UC.data[counter - 2], counter, counterForEnd,endProgram);
+                    UC.Execute(registers,UC.data[counter - 2], counter, counterForEnd,endProgram,ram);
                 }
                 if(counter >= 1 && counterForEnd >= 4){
                     //chamar a instrução de decode da unidade de controle

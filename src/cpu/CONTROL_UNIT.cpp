@@ -20,6 +20,7 @@ uint32_t ConvertToDecimalValue(uint32_t value){
 
 void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &ram){
     const uint32_t instruction = registers.ir.read();
+    registers.ir.write(ram.ReadMem(registers.mar.read()));
     if(instruction == 0b11111100000000000000000000000000)
     {
         cout << "END FOUND" << endl;
@@ -76,13 +77,13 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     return;
 }
 
-void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd,bool& programEnd){
+void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd,bool& programEnd, MainMemory& ram){
     /*Daqui tem de ser chamado o que tiver de ser chamado*/
 
     if(data.op == "ADD" ||  data.op == "SUB" || data.op == "MUL" || data.op == "DIV"){
         Execute_Aritmetic_Operation(registers, data);
     }else if(data.op == "BEQ" || data.op == "J" || data.op == "BNE" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLT" || data.op == "BLTI"){
-        Execute_Loop_Operation(registers, data, counter,counterForEnd,programEnd);
+        Execute_Loop_Operation(registers, data, counter,counterForEnd,programEnd,ram);
     }
     else if( data.op == "PRINT" ){
         Execute_Operation(registers,data);
@@ -276,7 +277,7 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
         return;
 }
 
-void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd, bool& programEnd){
+void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter, int& counterForEnd, bool& programEnd, MainMemory& ram){
     
     string nameregistersource = this->map.mp[data.source_register];
     string nametargetregister = this->map.mp[data.target_register];
@@ -288,7 +289,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BEQ;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
@@ -299,7 +302,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BNE;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
@@ -307,6 +312,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
     }else if(data.op == "J"){
         int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
         registers.pc.write(decimal_value);
+        registers.ir.write(ram.ReadMem(registers.pc.read()));
+
         cout << "Jump to: " << registers.pc.read();
         counter = 0;
         counterForEnd = 5;
@@ -317,7 +324,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BLT;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
@@ -328,7 +337,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BLTI;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
@@ -339,7 +350,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BGT;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
@@ -350,7 +363,10 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         alu.op = BGTI;
         alu.calculate();
         if(alu.result == 1){
-            registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+            int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+            registers.pc.write(decimal_value);
+            registers.ir.write(ram.ReadMem(registers.pc.read()));
+
             counter = 0;
             counterForEnd = 5;
             programEnd = false;
