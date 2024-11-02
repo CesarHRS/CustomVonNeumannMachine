@@ -19,6 +19,7 @@ int main(int argc, char* argv[]){
     int counter = 0;
     int clock = 0;
     bool endProgram = false;
+    Instruction_Data data;
 
   loadProgram(argv[1],ram);
 
@@ -38,12 +39,11 @@ int main(int argc, char* argv[]){
                 }
                 if(counter >= 1 && counterForEnd >= 4){
                     //chamar a instrução de decode da unidade de controle
-                    //UC.data[counter-1].op = "00000";
-                    //cout << "Instrução: " << UC.data[counter-1].op << endl;
                     UC.Decode(registers, UC.data[counter-1]);
                 }
                 if(counter >= 0 && counterForEnd == 5){
                     //chamar a instrução de fetch da unidade de controle
+                    UC.data.push_back(data) ;
                     UC.Fetch(registers, endProgram,ram);
                 }
                 counter += 1;

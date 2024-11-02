@@ -26,7 +26,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     const uint32_t instruction = registers.ir.read();
     data.op = Identificacao_instrucao(instruction,registers);
-    cout << "outra coisa" << endl;
+    cout << data.op << endl;
 
     //cout <<instruction << endl;
 
@@ -38,10 +38,10 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     }else if(data.op == "LI" || data.op == "LW" || data.op == "LA" || data.op == "SW")
     {
-        data.source_register = Get_source_Register(instruction);
+        data.source_register = Get_target_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
-        cout << data.source_register << endl;
-        cout << data.addressRAMResult << endl;
+        cout << "source register: " <<data.source_register << endl;
+        cout << "segundo registrador:" << data.addressRAMResult << endl;
 
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
         data.source_register = Get_source_Register(instruction);
