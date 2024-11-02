@@ -18,23 +18,24 @@ OPT:
 using namespace std;
 
 const unordered_map<string, int> instructionMap = {
-    {"add", 0b0000},
-    {"and", 0b0001},
-    {"div", 0b0010},
-    {"mult", 0b0011},
-    {"sub", 0b0100},
-    {"beq", 0b0101},
-    {"bne", 0b0110},
-    {"bgt", 0b0111},
-    {"bgti", 0b1000},
-    {"blt", 0b1001},
-    {"blti", 0b1010},
-    {"j", 0b1011},
-    {"lw", 0b1100},
-    {"sw", 0b1101},
-    {"li", 0b1110},
-    {"la", 0b1111},
-    {"print", 0b10000}
+    {"add", 0b000000},
+    {"and", 0b000001},
+    {"div", 0b000010},
+    {"mult", 0b000011},
+    {"sub", 0b000100},
+    {"beq", 0b000101},
+    {"bne", 0b000110},
+    {"bgt", 0b000111},
+    {"bgti", 0b001000},
+    {"blt", 0b001001},
+    {"blti", 0b001010},
+    {"j", 0b001011},
+    {"lw", 0b001100},
+    {"sw", 0b001101},
+    {"li", 0b001110},
+    {"la", 0b001111},
+    {"print", 0b001000},
+    {"end",0b111111}
 };
 
 const unordered_map<string, int> registerMap = {
@@ -148,6 +149,7 @@ void processAssemblyFile(const string &filename, string &output) {
     string line;
     bool textSection = false;
     bool dataSection = false;
+    bool insideLabel = false;
     int lineNum = 0;
     
     if (!inFile.is_open()) {
@@ -186,11 +188,18 @@ void processAssemblyFile(const string &filename, string &output) {
             size_t colonPos = line.find(':');
             if (colonPos != string::npos) {
                 
+                if(insideLabel){
+                    output += encodeIType("end", 0, 0, std::string(16, '0')); // Add end instruction
+                    output += "\n";               
+                }
+                
                 string labelName = line.substr(0, colonPos);
                 if (labelName.length() > 16) {
                     cerr << "Error: Label \"" << labelName << "\" exceeds the maximum length of 16 characters." << endl;
                 }                
                 output += labelName + ":\n"; 
+                insideLabel = true;
+
                 continue;
             }
             
@@ -329,6 +338,7 @@ void writeOutputFile(const string &output, const unordered_map<string, vector<in
     for (char bit : output) {
         outFile << bit;
     }
+    outFile << encodeIType("end", 0, 0, std::string(16, '0')); // Add end of program
     outFile << endl;
     
     outFile << ".data:" << endl;

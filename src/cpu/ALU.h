@@ -15,12 +15,13 @@ enum operation {
     MUL,
     DIV,
     BEQ,
+    BNE,
     BLT,
     BGT,
     BGTI,
     BLTI,
     LW,
-    LWA,
+    LA,
     ST      
 };
 

@@ -26,6 +26,12 @@ void ALU::calculate() {
             }
             result = A / B;
         break;
+        case BEQ:
+            result = A == B;
+        break;
+        case BNE:
+            result = A != B;
+        break;
         case BLT:
             result = A < B;
         break;
