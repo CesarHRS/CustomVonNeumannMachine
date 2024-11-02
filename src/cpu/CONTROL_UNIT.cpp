@@ -84,15 +84,17 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
 
     Map map;
+    string nameregister = map.mp[data.source_register];
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
         //aqui tem de ser feito a leitura na RAM
-        registers.acessoEscritaRegistradores[data.source_register](memory.ReadMem(stoul(data.addressRAMResult)));
+        registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
     }if(data.op == "LA" || data.op == "LI"){
-        string nameregister = map.mp[data.source_register];
         registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
     }
+
+    return;
 }
 
 void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTER_BANK &registers){
