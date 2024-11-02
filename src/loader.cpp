@@ -60,9 +60,9 @@ void loadProgram(const std::string& inputFile, MainMemory & ram) {
                     int intValue = std::stoi(value);
                     ram.WriteMem(address,intValue);
 
-                    std::cout << "Variable: " << padName(variableName) 
-                              << " Address: " << address 
-                              << " Value: " << intValue << std::endl;
+                    //std::cout << "Variable: " << padName(variableName) 
+                    //          << " Address: " << address 
+                    //          << " Value: " << intValue << std::endl;
                     address += 1; 
                 }
             }
@@ -77,7 +77,7 @@ void loadProgram(const std::string& inputFile, MainMemory & ram) {
         std::string label = trimmedLine.substr(0, colonPos);
         labelAddresses[padName(label)] = address; 
 
-         std::cout << "Label: " << padName(label) << " Address: " << labelAddresses[padName(label)] << std::endl;
+         //std::cout << "Label: " << padName(label) << " Address: " << labelAddresses[padName(label)] << std::endl;
          if (std::getline(file, line)) {
             instructions.push_back(line); // Store instruction
             address += 1; 
@@ -123,7 +123,7 @@ void loadProgram(const std::string& inputFile, MainMemory & ram) {
     }
 
     // Output the loaded memory for verification
-    for (size_t i = 0; i < address; ++i) {
-        std::cout << "Address " << (i) << ": " << std::bitset<32>(ram.ReadMem(i)) << std::endl;
-    }
+    //for (size_t i = 0; i < address; ++i) {
+    //    std::cout << "Address " << (i) << ": " << std::bitset<32>(ram.ReadMem(i)) << std::endl;
+    //}
 }

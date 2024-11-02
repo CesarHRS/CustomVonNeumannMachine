@@ -13,7 +13,7 @@ main:
 	print $t1
 	add $t3, $t1, $t0	# Add
 	print $t3
-	sub $t4, $t1, $t0	# Subtract
+	sub $t4, $t0, $t1	# Subtract
 	print $t4
 	sw $t4, Z		# Store the answer in Z (declared at the bottom)  
 	print Z
