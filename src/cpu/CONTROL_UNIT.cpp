@@ -83,8 +83,8 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
 
-    Map map;
-    string nameregister = map.mp[data.source_register];
+    
+    string nameregister = this->map.mp[data.source_register];
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
@@ -104,6 +104,8 @@ void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTE
         //aqui tem de ser feito a escrita na RAM
         memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[data.source_register]()) ;
     }
+
+    cout<<"entrou write back"<<endl;
 
     return;
 
@@ -211,31 +213,34 @@ string Control_Unit::Get_source_Register(const uint32_t instruction){
 
 void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruction_Data &data){
 
+        string nameregistersource = this->map.mp[data.source_register];
+        string nametargetregister = this->map.mp[data.target_register];
+        string nameregisterdestination = this->map.mp[data.destination_register];        
         ALU alu;
         if(data.op == "ADD"){
-            alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+            alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+            alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = ADD;
             alu.calculate();
-            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
+            registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
         }else if(data.op == "SUB"){
-            alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+            alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+            alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = SUB;
             alu.calculate();
-            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
+            registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
         }else if(data.op == "MUL"){
-            alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+            alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+            alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = MUL;
             alu.calculate();
-            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
+            registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
         }else if(data.op == "DIV"){
-            alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-            alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+            alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+            alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = DIV;
             alu.calculate();
-            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
+            registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
         }
 
         return;
@@ -243,10 +248,13 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
 
 void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter){
     
+    string nameregistersource = this->map.mp[data.source_register];
+    string nametargetregister = this->map.mp[data.target_register];
+    string nameregisterdestination = this->map.mp[data.destination_register];
     ALU alu;
     if(data.op == "BEQ"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BEQ;
         alu.calculate();
         if(alu.result == 1){
@@ -254,8 +262,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             counter = 0;
         }
     }else if(data.op == "BNE"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BNE;
         alu.calculate();
         if(alu.result == 1){
@@ -266,8 +274,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
         registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
         counter = 0;
     }else if(data.op == "BLT"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BLT;
         alu.calculate();
         if(alu.result == 1){
@@ -275,8 +283,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             counter = 0;
         }
     }else if(data.op == "BLTI"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BLTI;
         alu.calculate();
         if(alu.result == 1){
@@ -284,8 +292,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             counter = 0;
         }
     }else if(data.op == "BGT"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BGT;
         alu.calculate();
         if(alu.result == 1){
@@ -293,8 +301,8 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             counter = 0;
         }
     }else if(data.op == "BGTI"){
-        alu.A = registers.acessoLeituraRegistradores[data.source_register]();
-        alu.B = registers.acessoLeituraRegistradores[data.target_register]();
+        alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
+        alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
         alu.op = BGTI;
         alu.calculate();
         if(alu.result == 1){

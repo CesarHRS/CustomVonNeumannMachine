@@ -25,6 +25,8 @@ struct Control_Unit{
     operation op;
 
     vector<Instruction_Data> data;
+
+    Map map;
    
     unordered_map<string, string> instructionMap = {
         {"add", "000000"},
