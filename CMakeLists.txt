@@ -22,3 +22,6 @@ add_executable(CustomVonNeumannMachine
         src/memory/SECONDARY_MEMORY.cpp
         src/memory/SECONDARY_MEMORY.h
 )
+add_executable(Assembler
+        assembler/assembler.cpp
+)

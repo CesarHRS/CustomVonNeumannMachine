@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/dark/Desktop/Facul/CustomVonNeumannMachine
 
 # The main recursive "all" target.
 all: CMakeFiles/CustomVonNeumannMachine.dir/all
+all: CMakeFiles/Assembler.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/CustomVonNeumannMachine.dir/clean
+clean: CMakeFiles/Assembler.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -81,7 +83,7 @@ clean: CMakeFiles/CustomVonNeumannMachine.dir/clean
 CMakeFiles/CustomVonNeumannMachine.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CustomVonNeumannMachine.dir/build.make CMakeFiles/CustomVonNeumannMachine.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CustomVonNeumannMachine.dir/build.make CMakeFiles/CustomVonNeumannMachine.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target CustomVonNeumannMachine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12 "Built target CustomVonNeumannMachine"
 .PHONY : CMakeFiles/CustomVonNeumannMachine.dir/all
 
 # Build rule for subdir invocation for target.
@@ -99,6 +101,32 @@ CustomVonNeumannMachine: CMakeFiles/CustomVonNeumannMachine.dir/rule
 CMakeFiles/CustomVonNeumannMachine.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CustomVonNeumannMachine.dir/build.make CMakeFiles/CustomVonNeumannMachine.dir/clean
 .PHONY : CMakeFiles/CustomVonNeumannMachine.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/Assembler.dir
+
+# All Build rule for target.
+CMakeFiles/Assembler.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles --progress-num=1,2 "Built target Assembler"
+.PHONY : CMakeFiles/Assembler.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/Assembler.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Assembler.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles 0
+.PHONY : CMakeFiles/Assembler.dir/rule
+
+# Convenience name for target.
+Assembler: CMakeFiles/Assembler.dir/rule
+.PHONY : Assembler
+
+# clean rule for target.
+CMakeFiles/Assembler.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/clean
+.PHONY : CMakeFiles/Assembler.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

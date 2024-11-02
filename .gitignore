@@ -4,6 +4,7 @@ Makefile
 CmakeCache.txt
 CmakeFiles/
 CustomVonNeumannMachine
+Assembler
 cmake_install.cmake
 
 CmakeFiles/CustomVonNeumannMachine
