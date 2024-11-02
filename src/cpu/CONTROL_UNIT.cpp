@@ -1,5 +1,8 @@
 #include "CONTROL_UNIT.h"
 
+// TODO
+// - Implement print, li, la, lw, sw, j
+
 //PIPELINE
 
 void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram){
@@ -26,7 +29,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
         data.target_register = Get_target_Register(instruction);
         data.destination_register = Get_destination_Register(instruction);
 
-    }else if(data.op == "LW" || data.op == "LA" || data.op == "ST")
+    }else if(data.op == "LW" && data.op == "LA" && data.op == "SW")
     {
         data.source_register = Pick_Code_Register_Load(instruction);
         data.addressRAMResult = Get_immediate(instruction);
@@ -67,7 +70,7 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data)
 void Control_Unit::Write_Back(Instruction_Data &data){
 
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
-    if(data.op == "ST"){
+    if(data.op == "SW"){
         //aqui tem de ser feito a escrita na RAM
         //memory.InsertData(data, row, col) = registers.acessoLeituraRegistradores[data.code_third_register]();
     }
@@ -92,8 +95,8 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
         instruction_type = "LA";
     } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
         instruction_type = "LW";
-    } else if (opcode == this->instructionMap.at("st")) {       // STORE
-        instruction_type = "ST";
+    } else if (opcode == this->instructionMap.at("sw")) {       // STORE
+        instruction_type = "SW";
     } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
         instruction_type = "BEQ";
     } else if (opcode == this->instructionMap.at("blt")) {      // LESS THAN
