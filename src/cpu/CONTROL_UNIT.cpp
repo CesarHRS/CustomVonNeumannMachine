@@ -46,8 +46,12 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
         data.source_register = Get_source_Register(instruction);
         data.target_register = Get_target_Register(instruction);
+        data.addressRAMResult = Get_immediate(instruction);   
+    }
+    else if(data.op == "J"){
         data.addressRAMResult = Get_immediate(instruction);
-    }else if(data.op == "PRINT"){
+    }
+    else if(data.op == "PRINT"){
         string instrucao = to_string(instruction);
         if(Get_immediate(instruction) == "0000000000000000"){  //se for zero, então é um registrador
             data.target_register = Get_target_Register(instruction);
@@ -64,7 +68,7 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
 
     if(data.op == "ADD" ||  data.op == "SUB" || data.op == "MUL" || data.op == "DIV"){
         Execute_Aritmetic_Operation(registers, data);
-    }else if(data.op == "BEQ" || data.op == "BNE" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLT" || data.op == "BLTI"){
+    }else if(data.op == "BEQ" || data.op == "J" || data.op == "BNE" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLT" || data.op == "BLTI"){
         Execute_Loop_Operation(registers, data, counter);
     }
     else if( data.op == "PRINT" ){
@@ -120,6 +124,8 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
         instruction_type = "LA";
     } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
         instruction_type = "LW";
+    } else if (opcode == this->instructionMap.at("j")) {       // JUMP
+        instruction_type = "J";
     } else if (opcode == this->instructionMap.at("sw")) {       // STORE
         instruction_type = "SW";
     } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
@@ -254,6 +260,9 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
             counter = 0;
         }
+    }else if(data.op == "J"){
+        registers.pc.write(static_cast<uint32_t>(stoul(data.addressRAMResult)));
+        counter = 0;
     }else if(data.op == "BLT"){
         alu.A = registers.acessoLeituraRegistradores[data.source_register]();
         alu.B = registers.acessoLeituraRegistradores[data.target_register]();
