@@ -57,9 +57,10 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Temporary_Data &data){
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.tarefa_a_ser_feita_pela_ula == "LW"){
         //aqui tem de ser feito a leitura na RAM
-        //registers.acessoEscritaRegistradores[data.code_first_register] = Ram.insert[data.addressRAMResult];
+        //registers.acessoEscritaRegistradores[data.code_first_register] =  memory.GetData(row, col);
     }if(data.tarefa_a_ser_feita_pela_ula == "LWA"){
-
+        //pegar o endereço da intrução e jogar no registrador 
+        //registers.acessoEscritaRegistradores[data.code_first_register] =  memory.GetData(row, col);
     }
 }
 
@@ -68,7 +69,7 @@ void Control_Unit::Write_Back(Temporary_Data &data){
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.tarefa_a_ser_feita_pela_ula == "ST"){
         //aqui tem de ser feito a escrita na RAM
-        //Ram.insert[data.addressRAMResult] = registers.acessoLeituraRegistradores[data.code_third_register]();
+        //memory.InsertData(data, row, col) = registers.acessoLeituraRegistradores[data.code_third_register]();
     }
 
     return;

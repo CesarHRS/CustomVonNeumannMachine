@@ -35,3 +35,12 @@ void MainMemory::EraseData(int iTarget, int jTarget)
 
         else printf("Os valores para deleção de i e j são muito grandes!!");
 }
+
+uint32_t MainMemory::GetData(int iTarget, int jTarget) const {
+    if (iTarget < NumOfi && jTarget < NumOfj && iTarget >= 0 && jTarget >= 0) {
+        return words[iTarget][jTarget].read();
+    } else {
+        printf("Valores de i e j fora dos limites!\n");
+        return 0; // Valor padrão ou código de erro
+    }
+}

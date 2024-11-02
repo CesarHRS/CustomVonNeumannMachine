@@ -34,6 +34,7 @@ struct MainMemory{
         void InsertData(const uint32_t data, int iTarget, int jTarget);
         void EraseData(int iTarget, int jTarget);
         bool EmptyLine(int i) const;
+        uint32_t MainMemory::GetData(int iTarget, int jTarget) const;
 
 //      void ShowBit(int NumOfj, int NumOfi);
 //      void WriteBit(REGISTER value, int iTarget, int jTarget);

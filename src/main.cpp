@@ -3,6 +3,7 @@
 #include"./cpu/REGISTER_BANK.h"
 #include"./cpu/CONTROL_UNIT.h"
 #include"./cpu/HashRegister.h"
+#include "MAINMEMORY.h"
 
 
 using namespace std;
@@ -19,6 +20,7 @@ int main(){
         bool endProgram = false;
         int counterForEnd = 5;
         int clock = 0;
+        MainMemory memory; 
 
     /*tem de haver uma chamada da memória antes de chamar a unidade de controle para começar a operar no programa escrito
     Ou seja, vou ler o programa da memória do emulador e não do arquivo do meu computador
