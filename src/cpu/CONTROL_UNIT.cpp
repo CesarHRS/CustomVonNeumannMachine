@@ -177,24 +177,27 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
         if(data.op == "ADD"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
-            alu.result = 
             alu.op = ADD;
-            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
+            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
         }else if(data.op == "SUB"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
             alu.op = SUB;
-            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
+            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
         }else if(data.op == "MUL"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
             alu.op = MUL;
-            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
+            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
         }else if(data.op == "DIV"){
             alu.A = registers.acessoLeituraRegistradores[data.source_register]();
             alu.B = registers.acessoLeituraRegistradores[data.target_register]();
             alu.op = DIV;
-            registers.acessoEscritaRegistradores[data.destination_register](alu.calculate());
+            alu.calculate();
+            registers.acessoEscritaRegistradores[data.destination_register](alu.result);
         }
 
         return;

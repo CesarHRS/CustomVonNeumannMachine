@@ -32,6 +32,6 @@ struct ALU {
     bool overflow;
     operation op;
 
-    uint32_t calculate();
+    void calculate();
 };
 #endif //ALU_H
