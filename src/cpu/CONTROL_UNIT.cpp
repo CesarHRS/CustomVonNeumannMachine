@@ -157,7 +157,6 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
     }
     else if (opcode == this->instructionMap.at("print")) {    
         instruction_type = "PRINT";
-        cout << "PRINT ACHADO" << endl;
     }
     else if (opcode == this->instructionMap.at("li")) {    
         instruction_type = "LI"; // LOAD IMMEDIATE
