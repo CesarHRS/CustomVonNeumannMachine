@@ -31,8 +31,7 @@ int main(int argc, char* argv[]){
         while(counterForEnd > 0){
             if(counter >= 0 && counterForEnd == 5){
                 //chamar a instrução de fetch da unidade de controle
-                UC.Fetch(registers, endProgram);
-                   cout<<"chegamos aqui"<< endl;
+                UC.Fetch(registers, endProgram,ram);
 
             }
             if(counter >= 1 && counterForEnd >= 4){
