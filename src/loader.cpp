@@ -5,17 +5,16 @@
 #include <unordered_map>
 #include <vector>
 #include <bitset>
-#include <cstdint>
-#include <algorithm>
 
-//const int MEMORY_SIZE = 65536; // 16-bit address space
-const int MEMORY_SIZE = 128; // 16-bit address space
+#include"./memory/MAINMEMORY.h"
+
+const int MEMORY_SIZE = 2048*2048; // 32-bit address space
 
 std::string padName(const std::string& name) {
     return name + std::string(16 - name.length(), '#');
 }
 
-void loadProgram(const std::string& inputFile) {
+void loadProgram(const std::string& inputFile, MainMemory & ram) {
     std::ifstream file(inputFile);
     if (!file.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
@@ -25,7 +24,6 @@ void loadProgram(const std::string& inputFile) {
     std::unordered_map<std::string, int> labelAddresses;
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<std::string> instructions;
-    std::vector<uint32_t> memory(MEMORY_SIZE, 0); // Initialize memory
     int address = 0;
 
     std::string line;
@@ -60,7 +58,7 @@ void loadProgram(const std::string& inputFile) {
                     }
                     // Convert the value to int and store it in memory
                     int intValue = std::stoi(value);
-                    memory[address] = intValue;
+                    ram.WriteMem(address,intValue);
 
                     std::cout << "Variable: " << padName(variableName) 
                               << " Address: " << address 
@@ -73,7 +71,6 @@ void loadProgram(const std::string& inputFile) {
       // break if at the end of the data section
       break; 
     }
-
     // Check for labels
     else if (trimmedLine.find(":") != std::string::npos) {
         size_t colonPos = trimmedLine.find(":");
@@ -86,7 +83,7 @@ void loadProgram(const std::string& inputFile) {
             address += 1; 
         }
     }
-      // Regular instruction
+    // Regular instruction
     else {
         instructions.push_back(trimmedLine);
         address += 1; 
@@ -118,7 +115,7 @@ void loadProgram(const std::string& inputFile) {
 
         // Convert instruction string to binary and store in memory
         try {
-            memory[memAddress] = std::stoul(instruction, nullptr, 2);
+            ram.WriteMem(memAddress, std::stoul(instruction, nullptr, 2));
         } catch (const std::exception& e) {
             std::cerr << "Conversion error at: " << instruction << std::endl;
         }
@@ -126,17 +123,7 @@ void loadProgram(const std::string& inputFile) {
     }
 
     // Output the loaded memory for verification
-    for (size_t i = 0; i < memory.size(); ++i) {
-        std::cout << "Address " << (i) << ": " << std::bitset<32>(memory[i]) << std::endl;
+    for (size_t i = 0; i < 128; ++i) {
+        std::cout << "Address " << (i) << ": " << std::bitset<32>(ram.ReadMem(i)) << std::endl;
     }
-}
-
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
-
-    loadProgram(argv[1]);
-    return 0;
 }

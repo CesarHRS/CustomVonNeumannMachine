@@ -1,40 +1,24 @@
-#include<iostream>
-#include<fstream>
-//#include"./cpu/REGISTER_BANK.h"
-//#include"./cpu/CONTROL_UNIT.h"
-//#include"./cpu/HashRegister.h"
+#include"./cpu/REGISTER_BANK.h"
+#include"./cpu/CONTROL_UNIT.h"
+#include"./cpu/HashRegister.h"
 #include"./memory/MAINMEMORY.h"
+#include"./loader.h"
 
 using namespace std;
 
-int main(){
+int main(int argc, char* argv[]){
 
+  if (argc != 2) {
+      std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
+      return 1;
+  }
 
+  MainMemory ram = MainMemory(2048,2048);				//  1º  Cria-se uma variável do tipo MainMemory com 2048 linhas e 2048 colunas.
+  //REGISTER_BANK registers;
+ 	//Control_Unit UC;
 
+  loadProgram(argv[1],ram);
 
-		//~~===~~===~~===~~===~~~===~~~=== TESTE DE MEMÓRIA ~~===~~===~~===~~===~~===~~===~~===~~===~~~===~~===
-    MainMemory a = MainMemory(2048,2048);				//  1º  Cria-se uma variável do tipo MainMemory com 2048 linhas e 2048 colunas.
-    a.WriteMem(333, 200);						//  2º  Escrevesse no endereço 333 o valor 200.
-    uint32_t DataRead = a.ReadMem(333);					//  3º  A leitura do endereço 333 retorna o valor armazenado no mesmo para a variável DataRead
-    printf("Data: %d", DataRead );					//  4º Tudo é mostrado na tela pelo printf.
-		//~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~===~~~===~~===~~===~~===
-
-
-
-
-
-
-    //variaveis
-
-
-        // int counter = 0;
-        // ifstream file("programa.txt"); //tem de ler o programa inteiro e jogar na RAM
-        // string line;
-        // REGISTER_BANK registers;
-        // Control_Unit UC;
-        // bool endProgram = false;
-        // int counterForEnd = 5;
-        // int clock = 0;
 
     /*tem de haver uma chamada da memória antes de chamar a unidade de controle para começar a operar no programa escrito
     Ou seja, vou ler o programa da memória do emulador e não do arquivo do meu computador
