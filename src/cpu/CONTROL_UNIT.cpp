@@ -39,6 +39,8 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     {
         data.source_register = Get_source_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
+        cout << data.source_register << endl;
+        cout << data.addressRAMResult << endl;
 
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
         data.source_register = Get_source_Register(instruction);
@@ -105,12 +107,13 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     for(int i = 0; i < 6; i++){
         opcode += string_instruction[i];
     }
+    cout << string_instruction << endl;
+    cout << opcode << endl;
     //instrução do tipo I
     if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
         instruction_type = "LA";
     } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
         instruction_type = "LW";
-        cout<< "encontrou o inteiro" << endl;
     } else if (opcode == this->instructionMap.at("sw")) {       // STORE
         instruction_type = "SW";
     } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
@@ -129,7 +132,7 @@ string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTE
     }
     else if (opcode == this->instructionMap.at("li")) {    
         instruction_type = "LI"; // LOAD IMMEDIATE
-        cout << "encontrou o inteiro" << endl;
+        cout<< "encontrou o inteiro" << endl;
     }
 
     // instruções do tipo R

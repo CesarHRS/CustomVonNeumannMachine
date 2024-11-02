@@ -22,33 +22,27 @@ int main(int argc, char* argv[]){
 
   loadProgram(argv[1],ram);
 
-    while(counterForEnd > 0){
-        if(counter >= 0 && counterForEnd == 5){
-            //chamar a instrução de fetch da unidade de controle
-            UC.Fetch(registers, endProgram,ram);
-               cout<<"chegamos aqui"<< endl;
 
             while(counterForEnd > 0){
-                if(counter >= 0 && counterForEnd == 5){
-                    //chamar a instrução de fetch da unidade de controle
-                    UC.Fetch(registers, endProgram,ram);
-
-                }
-                if(counter >= 1 && counterForEnd >= 4){
-                    //chamar a instrução de decode da unidade de controle
-                    UC.Decode(registers, UC.data[counter]);
-                }
-                if(counter >= 2 && counterForEnd >= 3){
-                    //chamar a instrução de execução da unidade de controle
-                    UC.Execute(registers,UC.data[counter - 1], counter);
+                if(counter >= 4 && counterForEnd >= 1){
+                    //chamar a instrução de write back
+                    UC.Write_Back(UC.data[counter - 4],ram,registers);
                 }
                 if(counter >= 3 && counterForEnd >= 2){
                     //chamar a instrução de memory_acess da unidade de controle
-                    UC.Memory_Acess(registers, UC.data[counter - 2],ram);
+                    UC.Memory_Acess(registers, UC.data[counter - 3],ram);
                 }
-                if(counter >= 4 && counterForEnd >= 1){
-                    //chamar a instrução de write back
-                    UC.Write_Back(UC.data[counter - 3],ram,registers);
+                if(counter >= 2 && counterForEnd >= 3){
+                    //chamar a instrução de execução da unidade de controle
+                    UC.Execute(registers,UC.data[counter - 2], counter);
+                }
+                if(counter >= 1 && counterForEnd >= 4){
+                    //chamar a instrução de decode da unidade de controle
+                    UC.Decode(registers, UC.data[counter-1]);
+                }
+                if(counter >= 0 && counterForEnd == 5){
+                    //chamar a instrução de fetch da unidade de controle
+                    UC.Fetch(registers, endProgram,ram);
                 }
                 counter =+ 1;
                 clock =+ 1;
@@ -56,8 +50,8 @@ int main(int argc, char* argv[]){
                     counterForEnd =- 1;
                 }
             }
-        }
-     }  
+        
+      
        
     return 0;
 }
