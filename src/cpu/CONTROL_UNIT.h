@@ -8,6 +8,7 @@
 #include <vector>
 #include"HashRegister.h"
 #include"unordered_map"
+#include"../memory/MAINMEMORY.h"
 
 using namespace std;
 
@@ -58,8 +59,8 @@ struct Control_Unit{
     void Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data);
     void Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_Data &data, int &counter); 
     void Execute(REGISTER_BANK &registers, Instruction_Data &data, int &counter);
-    void Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data);
-    void Write_Back(Instruction_Data &data);
+    void Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory);
+    void Write_Back(Instruction_Data &data, MainMemory &memory);
 };
 
 #endif;
