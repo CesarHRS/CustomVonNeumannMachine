@@ -8,3 +8,4 @@ Assembler
 cmake_install.cmake
 
 CmakeFiles/CustomVonNeumannMachine
+CmakeFiles/Assembler
