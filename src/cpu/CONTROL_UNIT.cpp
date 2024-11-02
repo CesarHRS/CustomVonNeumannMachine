@@ -4,7 +4,7 @@
 
 void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram){
     const uint32_t instruction = registers.ir.read();
-    if(instruction == 00000000000000000000000000001100)
+    if(instruction == 0b11111100000000000000000000000000)
     {
         endProgram = true;
         return;
@@ -16,12 +16,10 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram){
 }
 
 void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
-    //Daqui vai ter de ser identificado o que fazer
 
     const uint32_t instruction = registers.ir.read();
-
-
     data.op = Identificacao_instrucao(instruction,registers);
+
     if(data.op == "ADD" && data.op == "SUB" && data.op == "MULT" && data.op != "DIV"){
         // se entrar aqui é porque tem de carregar registradores, que estão especificados na instrução
         data.source_register = Get_source_Register(instruction);
@@ -32,6 +30,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     {
         data.source_register = Pick_Code_Register_Load(instruction);
         data.addressRAMResult = Get_immediate(instruction);
+
     }else if(data.op == "BLT" && data.op == "BGT" && data.op == "BGTI" && data.op == "BLTI"){
         data.source_register = Get_source_Register(instruction);
         data.target_register = Get_target_Register(instruction);
@@ -80,72 +79,49 @@ void Control_Unit::Write_Back(Instruction_Data &data){
 string Control_Unit::Identificacao_instrucao(const uint32_t instruction, REGISTER_BANK &registers){
 
 
+    string string_instruction = to_string(instruction);
+    string opcode = "";
+    string instruction_type = "";
+
+    for(int i = 0; i < 6; i++){
+        opcode[i] = string_instruction[i];
+    }
+
     //instrução do tipo I
-        string string_instruction = to_string(instruction);
-        string opcode = "";
-        char first_check = 'x'; // → indica que tem endereço na instrução
-        string instruction_type = "";
+    if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
+        instruction_type = "LA";
+    } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
+        instruction_type = "LW";
+    } else if (opcode == this->instructionMap.at("st")) {       // STORE
+        instruction_type = "ST";
+    } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
+        instruction_type = "BEQ";
+    } else if (opcode == this->instructionMap.at("blt")) {      // LESS THAN
+        instruction_type = "BLT";
+    } else if (opcode == this->instructionMap.at("blti")) {     // LESS THAN OR EQUAL
+        instruction_type = "BLTI";
+    } else if (opcode == this->instructionMap.at("bgt")) {      // GREATER THAN
+        instruction_type = "BGT";
+    } else if (opcode == this->instructionMap.at("bgti")) {     // GREATER THAN OR EQUAL
+        instruction_type = "BGTI";
+    }
+    else if (opcode == this->instructionMap.at("print")) {    
+        instruction_type = "PRINT";
+    }
+    else if (opcode == this->instructionMap.at("li")) {    
+        instruction_type = "LI"; // LOAD IMMEDIATE
+    }
 
-        for(int i = 2; i < 8; i++){
-            opcode[i] = string_instruction[i];
-        }
+    // instruções do tipo R
 
-    if (string_instruction.find(first_check) != std::string::npos) {
-        if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
-            instruction_type = "LA";
-        } else if (opcode == this->instructionMap.at("lw")) {       // LOAD
-            instruction_type = "LW";
-        } else if (opcode == this->instructionMap.at("st")) {       // STORE
-            instruction_type = "ST";
-        } else if (opcode == this->instructionMap.at("beq")) {      // EQUAL
-            instruction_type = "BEQ";
-        } else if (opcode == this->instructionMap.at("blt")) {      // LESS THAN
-            instruction_type = "BLT";
-        } else if (opcode == this->instructionMap.at("blti")) {     // LESS THAN OR EQUAL
-            instruction_type = "BLTI";
-        } else if (opcode == this->instructionMap.at("bgt")) {      // GREATER THAN
-            instruction_type = "BGT";
-        } else if (opcode == this->instructionMap.at("bgti")) {     // GREATER THAN OR EQUAL
-            instruction_type = "BGTI";
-        }
-        else if (opcode == this->instructionMap.at("print")) {    
-            instruction_type = "PRINT";
-        }
-        else if (opcode == this->instructionMap.at("li")) {    
-            instruction_type = "LI"; // LOAD IMMEDIATE
-        }
-    }else{
-
-        //identificação das instruções do tipo R
-
-        // O começo não devieria ser 0 tmb?
-        unsigned long long int opcode = instruction & 0b11111100000000000000000000111111;
-
-        switch (opcode)
-        {
-        case 0b00000000000000000000000000100000:
-            //instrução de ADD 
-            instruction_type = "ADD";
-            break;
-
-        case 0b00000000000000000000000000100010:
-            //instrução de SUB
-            instruction_type = "SUB";
-            break;
-
-        case 0b00000000000000000000000000011000:
-            //instrução de MUL
-            instruction_type = "MUL";
-            break;
-
-        case 0b00000000000000000000000000011010:
-            //instrução de DIV, neste caso teremos registradores especificos a serem usados
-            instruction_type = "DIV";
-            break;
-
-        default:
-            break;
-        }
+    if (opcode == this->instructionMap.at("add")) {              
+        instruction_type = "ADD";
+    } else if (opcode == this->instructionMap.at("sub")) {       
+        instruction_type = "SUB";
+    } else if (opcode == this->instructionMap.at("mult")) {       
+        instruction_type = "MULT";
+    } else if (opcode == this->instructionMap.at("div")) {      
+        instruction_type = "DIV";
     }
 
     return instruction_type;

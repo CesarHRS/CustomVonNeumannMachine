@@ -40,7 +40,8 @@ struct Control_Unit{
         {"sw", "001101"},
         {"li", "001110"},
         {"la", "001111"},
-        {"print", "010000"}
+        {"print", "010000"},
+        {"end", "111111"}
     };
 
     string Get_immediate(const uint32_t instruction);
