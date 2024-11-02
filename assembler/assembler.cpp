@@ -252,13 +252,13 @@ void processAssemblyFile(const string &filename, string &output) {
                 }
                 
                 else if (instruction == "lw" || instruction == "sw") {
-                    string rsStr, varName;
-                    iss >> rsStr >> varName; 
-                    rs = getRegisterCode(rsStr);
+                    string rtStr, varName;
+                    iss >> rtStr >> varName; 
+                    rt = getRegisterCode(rtStr);
 
                     if (rs != -1 ) {
                         if (dataMap.find(varName) != dataMap.end()) {
-                            output += padInstruction(encodeIType(instruction, rs, 0, varName));
+                            output += padInstruction(encodeIType(instruction, 0, rt, varName));
                             output += "\n";
                         } else {
                             cerr << "Error: Variable \"" << varName << "\" not found in data section." << endl;

@@ -106,7 +106,7 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
     string instruction_type = "";
 
     for(int i = 0; i < 6; i++){
-        opcode += string_instruction[i];
+        //opcode += string_instruction[i];
     }
     cout << string_instruction << endl;
     cout << opcode << endl;
