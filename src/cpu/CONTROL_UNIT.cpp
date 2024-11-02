@@ -277,3 +277,13 @@ void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &
         cout << data.source_register << endl;
     }
 }
+
+string Control_Unit::Pick_Code_Register_Load(const uint32_t instruction){
+    string copia_instrucao = to_string(instruction);
+    string code;
+    for(int i = 11; i < 16; i++){
+        code[i] = copia_instrucao[i];
+    }
+
+    return code;
+}
