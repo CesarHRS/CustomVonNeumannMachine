@@ -1,0 +1,3 @@
+/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles/CustomVonNeumannMachine.dir
+/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles/edit_cache.dir
+/home/dark/Desktop/Facul/CustomVonNeumannMachine/CMakeFiles/rebuild_cache.dir

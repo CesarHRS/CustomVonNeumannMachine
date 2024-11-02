@@ -31,7 +31,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     }else if(data.op == "LW" && data.op == "LA" && data.op == "SW")
     {
-        data.source_register = Pick_Code_Register_Load(instruction);
+        data.source_register = Get_source_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
 
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
@@ -61,6 +61,8 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
     else if( data.op == "PRINT" ){
         Execute_Operation(registers,data);
     }
+
+    // demais operações realizadas no memory acess
 }
 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
