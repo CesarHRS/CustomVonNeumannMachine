@@ -3,6 +3,8 @@
 
 OPT:
 - lw $t0 (offset)$t1) syntax
+- jal for function call
+- jr for return
 */
 
 #include <iostream>
@@ -16,22 +18,23 @@ OPT:
 using namespace std;
 
 const unordered_map<string, int> instructionMap = {
-    {"add", 0b100000},
-    {"and", 0b100100},
-    {"div", 0b011010},
-    {"mult", 0b011000},
-    {"sub", 0b100010},
-    {"beq", 0b000100},
-    {"bne", 0b000101},
-    {"bgt", 0b000111},
-    {"blt", 0b000110},
-    {"j", 0b001000},
-    {"lw", 0b100011},
-    {"sw", 0b101011},
-    {"li", 0b101100},
-    {"move", 0b101101},
-    {"la", 0b101110},
-    {"print", 0b101111}
+    {"add", 0b0000},
+    {"and", 0b0001},
+    {"div", 0b0010},
+    {"mult", 0b0011},
+    {"sub", 0b0100},
+    {"beq", 0b0101},
+    {"bne", 0b0110},
+    {"bgt", 0b0111},
+    {"bgti", 0b1000},
+    {"blt", 0b1001},
+    {"blti", 0b1010},
+    {"j", 0b1011},
+    {"lw", 0b1100},
+    {"sw", 0b1101},
+    {"li", 0b1110},
+    {"la", 0b1111},
+    {"print", 0b10000}
 };
 
 const unordered_map<string, int> registerMap = {
@@ -257,12 +260,10 @@ void processAssemblyFile(const string &filename, string &output) {
                     string arg;
                     iss >> arg;
                     // Check if arg is a register or a variable
-                    if (registerMap.count(cleanRegisterString(arg))) {
+                    if (getRegisterCode(arg) != -1) {
                         int regCode = getRegisterCode(arg);
-                        if (regCode != -1) {
-                            output += encodeIType("print", 0, regCode, ""); 
-                            output += "\n";
-                        }
+                        output += encodeIType("print", 0, regCode, std::string(16,'0')); 
+                        output += "\n";
                     } else {
                         output += padInstruction(encodeIType("print", 0, 0, arg)); 
                         output += "\n";
@@ -330,7 +331,7 @@ void writeOutputFile(const string &output, const unordered_map<string, vector<in
     }
     outFile << endl;
     
-    outFile << ".data{" << endl;
+    outFile << ".data:" << endl;
     for (const auto &entry : dataMap) {
         outFile << entry.first << ": ";
 
@@ -342,7 +343,6 @@ void writeOutputFile(const string &output, const unordered_map<string, vector<in
         }
         outFile << endl; 
     }    
-    outFile << "}" << endl;
 
     outFile.close();
 }

@@ -23,6 +23,27 @@ struct Control_Unit{
 
     vector<Temporary_Data> data;
 
+    
+    const unordered_map<string, int> instructionMap = {
+        {"add", 0b0000},
+        {"and", 0b0001},
+        {"div", 0b0010},
+        {"mult", 0b0011},
+        {"sub", 0b0100},
+        {"beq", 0b0101},
+        {"bne", 0b0110},
+        {"bgt", 0b0111},
+        {"bgti", 0b1000},
+        {"blt", 0b1001},
+        {"blti", 0b1010},
+        {"j", 0b1011},
+        {"lw", 0b1100},
+        {"sw", 0b1101},
+        {"li", 0b1110},
+        {"la", 0b1111},
+        {"print", 0b10000}
+    };
+
     // principais operações de uma unidade de controle
     string Pick_Adress_Result(const uint32_t instruction);
     string Pick_Code_Register_Load(const uint32_t instruction);
