@@ -9,6 +9,8 @@
 #include"HashRegister.h"
 #include"unordered_map"
 #include"../memory/MAINMEMORY.h"
+#include <cstdint>
+#include <cmath>
 
 using namespace std;
 

@@ -88,8 +88,17 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
+    string bin_str = to_string(stoul(data.addressRAMResult));
+        uint32_t decimal_value = 0;       
+        int len = bin_str.length();
+        for (int i = 0; i < len; ++i) {
+        if (bin_str[i] == '1') {
+            decimal_value += std::pow(2, len - 1 - i);
+            }
+        }
         //aqui tem de ser feito a leitura na RAM
-        registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
+        registers.acessoEscritaRegistradores[nameregister](memory.ReadMem(decimal_value));
+        cout << "valor da memória RAM: " << registers.acessoLeituraRegistradores[nameregister]() << endl;
     }if(data.op == "LA" || data.op == "LI"){
         registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
     }
@@ -215,7 +224,17 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
 
         string nameregistersource = this->map.mp[data.source_register];
         string nametargetregister = this->map.mp[data.target_register];
-        string nameregisterdestination = this->map.mp[data.destination_register];        
+        string nameregisterdestination = this->map.mp[data.destination_register]; 
+        string bin_str = to_string(registers.acessoLeituraRegistradores[nameregistersource]());
+        uint32_t decimal_value = 0;       
+        int len = bin_str.length();
+        for (int i = 0; i < len; ++i) {
+        if (bin_str[i] == '1') {
+            decimal_value += std::pow(2, len - 1 - i);
+            }
+        }
+        std::cout << "Valor em decimal: " << decimal_value << std::endl;
+
         ALU alu;
         if(data.op == "ADD"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -313,6 +332,7 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
             counter = 0;
         }
     }
+    return;
 }
 
 void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data){
