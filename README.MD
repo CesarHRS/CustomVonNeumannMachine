@@ -299,9 +299,9 @@ blt $t0 $t3 loop
 
 # Autores
 
-Frank Leite Lemos
-Getulio Santos Mendes
-Cesar Henrrique Soares
-João Pedro Freitas de Paula Dias
-Joao Gustavo Silva Guimarães
-Leandro Sousa Costa
+Frank Leite Lemos <br>
+Getulio Santos Mendes <br>
+Cesar Henrrique Soares <br>
+João Pedro Freitas de Paula Dias <br>
+Joao Gustavo Silva Guimarães <br>
+Leandro Sousa Costa <br>
