@@ -34,7 +34,7 @@ const unordered_map<string, int> instructionMap = {
     {"sw", 0b001101},
     {"li", 0b001110},
     {"la", 0b001111},
-    {"print", 0b001000},
+    {"print", 0b010000},
     {"end",0b111111}
 };
 
