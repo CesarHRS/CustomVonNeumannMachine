@@ -231,10 +231,10 @@ void processAssemblyFile(const string &filename, string &output) {
 
                 } else if (instruction == "j") {
                     string addrStr;
-                   
+
                     try {
                         iss >> addrStr; 
-                        output += padInstruction(encodeJType(instruction, addrStr));
+                        output += padInstruction(encodeIType(instruction,0,0, addrStr));
                         output += "\n";                    
                     } catch (invalid_argument&) {
                             cerr << "Error: Invalid address \"" << addrStr << "\" in instruction at line " << lineNum << endl;
