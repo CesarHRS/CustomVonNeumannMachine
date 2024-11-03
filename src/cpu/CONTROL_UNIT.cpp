@@ -18,7 +18,7 @@ void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory 
     //registers.ir.write(aqui tem de ser passado a instrução que estiver na RAM);
 
     registers.ir.write(ram.ReadMem(registers.mar.read()));
-    cout << "IR: " << bitset<32>(registers.ir.read()) << endl;
+    //cout << "IR: " << bitset<32>(registers.ir.read()) << endl;
     registers.pc.write(registers.pc.value += 1);//incrementando o pc 
 }
 
@@ -26,7 +26,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     const uint32_t instruction = registers.ir.read();
     data.op = Identificacao_instrucao(instruction,registers);
-    cout << data.op << endl;
+    //cout << data.op << endl;
 
     //cout <<instruction << endl;
 
@@ -40,8 +40,8 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
     {
         data.source_register = Get_target_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
-        cout << "source register: " <<data.source_register << endl;
-        cout << "segundo registrador:" << data.addressRAMResult << endl;
+        //cout << "source register: " <<data.source_register << endl;
+        //cout << "segundo registrador:" << data.addressRAMResult << endl;
 
     }else if(data.op == "BLT" || data.op == "BGT" || data.op == "BGTI" || data.op == "BLTI"){
         data.source_register = Get_source_Register(instruction);
@@ -75,8 +75,8 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
         Execute_Operation(registers,data);
     }
 
-    cout<<"entrou"<<endl;
-    cout << counter << endl;
+    //cout<<"entrou"<<endl;
+    //cout << counter << endl;
 
     // demais operações realizadas no memory acess
 }
@@ -105,8 +105,6 @@ void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTE
         memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[data.source_register]()) ;
     }
 
-    cout<<"entrou write back"<<endl;
-
     return;
 
 }
@@ -122,7 +120,6 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
         opcode += string_instruction[i];
     }
     cout << string_instruction << endl;
-    cout << opcode << endl;
     //instrução do tipo I
     if (opcode == this->instructionMap.at("la")) {              // LOAD from vector
         instruction_type = "LA";
@@ -148,13 +145,14 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
     }
     else if (opcode == this->instructionMap.at("li")) {    
         instruction_type = "LI"; // LOAD IMMEDIATE
-        cout<< "encontrou o inteiro" << endl;
     }
 
     // instruções do tipo R
 
     if (opcode == this->instructionMap.at("add")) {              
         instruction_type = "ADD";
+            cout << this->instructionMap.at("add")<< "opcode soma:" << opcode << endl;
+
     } else if (opcode == this->instructionMap.at("sub")) {       
         instruction_type = "SUB";
     } else if (opcode == this->instructionMap.at("mult")) {       
@@ -222,7 +220,10 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
             alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = ADD;
             alu.calculate();
+            cout << "valor de A:" << alu.A << endl;
+            cout << "valor de B:" << alu.B << endl;
             registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
+            cout<< "resultado soma:" << bitset<32>(registers.acessoLeituraRegistradores[nameregisterdestination]()) << endl;
         }else if(data.op == "SUB"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
             alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
