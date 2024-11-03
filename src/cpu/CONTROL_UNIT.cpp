@@ -38,7 +38,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
 
     }else if(data.op == "LI" || data.op == "LW" || data.op == "LA" || data.op == "SW")
     {
-        data.source_register = Get_target_Register(instruction);
+        data.target_register = Get_target_Register(instruction);
         data.addressRAMResult = Get_immediate(instruction);
         //cout << "source register: " <<data.source_register << endl;
         //cout << "segundo registrador:" << data.addressRAMResult << endl;
@@ -56,7 +56,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
         if(Get_immediate(instruction) == "0000000000000000"){  //se for zero, então é um registrador
             data.target_register = Get_target_Register(instruction);
         }else{  //se não for zero, então é um valor imediato
-            data.source_register = Get_immediate(instruction); 
+            data.addressRAMResult = Get_immediate(instruction); 
         }
     }
 
@@ -84,7 +84,7 @@ void Control_Unit::Execute(REGISTER_BANK &registers,Instruction_Data &data, int 
 void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data, MainMemory &memory){
 
     
-    string nameregister = this->map.mp[data.source_register];
+    string nameregister = this->map.mp[data.target_register];
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
@@ -102,13 +102,17 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
     }if(data.op == "LA" || data.op == "LI"){
         registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
     }
+    else if(data.op == "PRINT" && data.target_register == ""){
+        auto value = memory.ReadMem(stoul(data.addressRAMResult));
+        cout << "PROGRAM PRINT: " << value << endl;
+    }
 
     return;
 }
 
 void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTER_BANK &registers){
 
-    string nameregister = this->map.mp[data.source_register];
+    string nameregister = this->map.mp[data.target_register];
 
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.op == "SW"){
@@ -153,6 +157,7 @@ string Control_Unit::Identificacao_instrucao(uint32_t instruction, REGISTER_BANK
     }
     else if (opcode == this->instructionMap.at("print")) {    
         instruction_type = "PRINT";
+        cout << "PRINT ACHADO" << endl;
     }
     else if (opcode == this->instructionMap.at("li")) {    
         instruction_type = "LI"; // LOAD IMMEDIATE
@@ -336,10 +341,10 @@ void Control_Unit::Execute_Loop_Operation(REGISTER_BANK &registers,Instruction_D
 }
 
 void Control_Unit::Execute_Operation(REGISTER_BANK &registers,Instruction_Data &data){
+    string nameregister = this->map.mp[data.target_register];
+
     if(data.op == "PRINT" && data.target_register != ""){
-        cout << "PROGRAM PRINT" << registers.acessoLeituraRegistradores[data.target_register]() << endl;
-    }else{
-        cout << "PROGRAM PRINT" << data.source_register << endl;
+        cout << "PROGRAM PRINT: " << registers.acessoLeituraRegistradores[nameregister]() << endl;
     }
 }
 
