@@ -293,6 +293,8 @@ blt $t0 $t3 loop
     <table border="1">
       <tr><td><u>cmake CMakeLists.txt</u></td> <td>Apaga a última compilação realizada contida na pasta build</td></tr>
       <tr><td><u>make</u></td> <td>Executa a compilação do programa utilizando o gcc, e o resultado vai para a pasta build.</td></tr>
+      <tr><td><u>./assembler example.asm</td></tr>
+      <tr><td><u>mv output.bin testes</td></tr>
       <tr><td><u>./CustomVonNeumannMachine testes/output.bin </u></td> <td>Executa com programa da pasta teste </td></tr>
     </table>
 </p>
