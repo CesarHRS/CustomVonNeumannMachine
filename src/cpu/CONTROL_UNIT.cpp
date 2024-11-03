@@ -64,7 +64,6 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
         data.addressRAMResult = Get_immediate(instruction);
     }
     else if(data.op == "PRINT"){
-        cout << "identificamos um print" << endl;
         string instrucao = to_string(instruction);
         if(Get_immediate(instruction) == "0000000000000000"){  //se for zero, então é um registrador
             data.target_register = Get_target_Register(instruction);
