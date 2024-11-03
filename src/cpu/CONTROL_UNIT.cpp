@@ -4,6 +4,18 @@
 // TODO
 // - Implement print, li, la, lw, sw, j
 
+uint32_t ConvertToDecimalValue(uint32_t value){
+    string bin_str = to_string(value);
+        uint32_t decimal_value = 0;       
+        int len = bin_str.length();
+        for (int i = 0; i < len; ++i) {
+        if (bin_str[i] == '1') {
+            decimal_value += std::pow(2, len - 1 - i);
+            }
+        }
+    return decimal_value;
+}
+
 //PIPELINE
 
 void Control_Unit::Fetch(REGISTER_BANK &registers, bool &endProgram, MainMemory &ram){
@@ -52,6 +64,7 @@ void Control_Unit::Decode(REGISTER_BANK &registers, Instruction_Data &data){
         data.addressRAMResult = Get_immediate(instruction);
     }
     else if(data.op == "PRINT"){
+        cout << "identificamos um print" << endl;
         string instrucao = to_string(instruction);
         if(Get_immediate(instruction) == "0000000000000000"){  //se for zero, então é um registrador
             data.target_register = Get_target_Register(instruction);
@@ -88,19 +101,13 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
-    string bin_str = to_string(stoul(data.addressRAMResult));
-        uint32_t decimal_value = 0;       
-        int len = bin_str.length();
-        for (int i = 0; i < len; ++i) {
-        if (bin_str[i] == '1') {
-            decimal_value += std::pow(2, len - 1 - i);
-            }
-        }
+        int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
         //aqui tem de ser feito a leitura na RAM
         registers.acessoEscritaRegistradores[nameregister](memory.ReadMem(decimal_value));
         cout << "valor da memória RAM: " << registers.acessoLeituraRegistradores[nameregister]() << endl;
     }if(data.op == "LA" || data.op == "LI"){
-        registers.acessoEscritaRegistradores[nameregister](stoul(data.addressRAMResult));
+        int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+        registers.acessoEscritaRegistradores[nameregister](decimal_value);
     }
     else if(data.op == "PRINT" && data.target_register == ""){
         auto value = memory.ReadMem(stoul(data.addressRAMResult));
@@ -230,16 +237,6 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
         string nameregistersource = this->map.mp[data.source_register];
         string nametargetregister = this->map.mp[data.target_register];
         string nameregisterdestination = this->map.mp[data.destination_register]; 
-        string bin_str = to_string(registers.acessoLeituraRegistradores[nameregistersource]());
-        uint32_t decimal_value = 0;       
-        int len = bin_str.length();
-        for (int i = 0; i < len; ++i) {
-        if (bin_str[i] == '1') {
-            decimal_value += std::pow(2, len - 1 - i);
-            }
-        }
-        std::cout << "Valor em decimal: " << decimal_value << std::endl;
-
         ALU alu;
         if(data.op == "ADD"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
@@ -249,19 +246,23 @@ void Control_Unit::Execute_Aritmetic_Operation(REGISTER_BANK &registers,Instruct
             cout << "valor de A:" << alu.A << endl;
             cout << "valor de B:" << alu.B << endl;
             registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
-            cout<< "resultado soma:" << bitset<32>(registers.acessoLeituraRegistradores[nameregisterdestination]()) << endl;
+            cout<< "resultado soma:" <<registers.acessoLeituraRegistradores[nameregisterdestination]() << endl;
         }else if(data.op == "SUB"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
             alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = SUB;
+            cout << "valor de A:" << alu.A << endl;
+            cout << "valor de B:" << alu.B << endl;
             alu.calculate();
             registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
+            cout << "resultado subtração:" << registers.acessoLeituraRegistradores[nameregisterdestination]() << endl;
         }else if(data.op == "MUL"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
             alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
             alu.op = MUL;
             alu.calculate();
             registers.acessoEscritaRegistradores[nameregisterdestination](alu.result);
+            cout << "resultado multiplicação:" << registers.acessoLeituraRegistradores[nameregisterdestination]() << endl;
         }else if(data.op == "DIV"){
             alu.A = registers.acessoLeituraRegistradores[nameregistersource]();
             alu.B = registers.acessoLeituraRegistradores[nametargetregister]();
@@ -358,3 +359,5 @@ string Control_Unit::Pick_Code_Register_Load(const uint32_t instruction){
 
     return code;
 }
+
+
