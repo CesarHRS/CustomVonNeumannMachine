@@ -123,7 +123,10 @@ void Control_Unit::Write_Back(Instruction_Data &data, MainMemory &memory,REGISTE
     //aqui devem ocorrer qualquer uma das intruções de escrita na RAM
     if(data.op == "SW"){
         //aqui tem de ser feito a escrita na RAM
-        memory.WriteMem(stoul(data.addressRAMResult), registers.acessoLeituraRegistradores[nameregister]()) ;
+        int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+        cout << decimal_value << endl;
+        memory.WriteMem(decimal_value, registers.acessoLeituraRegistradores[nameregister]()) ;
+        cout << "valor da memória RAM: " << memory.ReadMem(decimal_value) << endl;
     }
 
     return;
