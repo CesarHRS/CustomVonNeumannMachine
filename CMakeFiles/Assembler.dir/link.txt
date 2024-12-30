@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/Assembler.dir/assembler/assembler.cpp.o -o Assembler
+/ucrt64/bin/c++.exe -g -Wl,--enable-auto-import CMakeFiles/Assembler.dir/assembler/assembler.cpp.o -o Assembler.exe -Wl,--out-implib,libAssembler.dll.a -Wl,--major-image-version,0,--minor-image-version,0

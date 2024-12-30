@@ -17,8 +17,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/CustomVonNeumannMachine.dir/src/memory/MEMORYCELL.cpp.o.d"
   "CMakeFiles/CustomVonNeumannMachine.dir/src/memory/SECONDARY_MEMORY.cpp.o"
   "CMakeFiles/CustomVonNeumannMachine.dir/src/memory/SECONDARY_MEMORY.cpp.o.d"
-  "CustomVonNeumannMachine"
+  "CustomVonNeumannMachine.exe"
   "CustomVonNeumannMachine.pdb"
+  "libCustomVonNeumannMachine.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

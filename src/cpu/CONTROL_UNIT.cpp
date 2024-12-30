@@ -102,17 +102,18 @@ void Control_Unit::Memory_Acess(REGISTER_BANK &registers,Instruction_Data &data,
 
     //aqui devem ser executadas as intruções de LOAD de fato
     if(data.op == "LW"){
-        int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
+        int decimal_addr = ConvertToDecimalValue(stoul(data.addressRAMResult));
         //aqui tem de ser feito a leitura na RAM
-        registers.acessoEscritaRegistradores[nameregister](memory.ReadMem(decimal_value));
+        registers.acessoEscritaRegistradores[nameregister](memory.ReadMem(decimal_addr));
         //cout << "valor da memória RAM: " << registers.acessoLeituraRegistradores[nameregister]() << endl;
     }if(data.op == "LA" || data.op == "LI"){
         int decimal_value = ConvertToDecimalValue(stoul(data.addressRAMResult));
         registers.acessoEscritaRegistradores[nameregister](decimal_value);
     }
     else if(data.op == "PRINT" && data.target_register == ""){
-        auto value = memory.ReadMem(stoul(data.addressRAMResult));
-        //cout << "PROGRAM PRINT: " << value << endl;
+        int decimal_addr = ConvertToDecimalValue(stoul(data.addressRAMResult));
+        int value = memory.ReadMem(decimal_addr);
+        cout << "PROGRAM PRINT: " << value << endl;
     }
 
     return;
